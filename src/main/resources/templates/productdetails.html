@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>Storage System</title>
+<title th:replace="header_link.html"></title>
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="modal modal-danger fade" id="modal-delete">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button> -->
+					<h4 class="modal-title">warning</h4>
+				</div>
+				<div class="modal-body">
+					<p id="modal-body-info">are you sure you want to delete this
+						product?</p>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+					<button id="btn_delete_product" type="button"
+						class="btn btn-default" data-dismiss="modal">Yes</button>
+					<!-- <button type="button" class="btn btn-primary">ok</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+<div class="modal modal-default fade " id="modal-info">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button> -->
+					<h4 class="modal-title">processing</h4>
+				</div>
+				<div class="modal-body">
+					<p id="modal-body-info">success</p>
+					<div id="modal-progressbar" class="progress active">
+						<div
+							class="progress-bar progress-bar-primary progress-bar-striped"
+							role="progressbar" aria-valuenow="100" aria-valuemin="0"
+							aria-valuemax="100" style="width: 100%">
+							<span class="sr-only">processing</span>
+
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<!-- <button type="button" class="btn btn-primary">ok</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<div class="wrapper">
+
+		<!-- Main Header -->
+		<div th:replace="header.html"></div>
+		<!-- Left side column. contains the logo and sidebar -->
+		<div th:replace="left_sidebar.html"></div>
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>
+					Product <small>detail</small>
+				</h1>
+				<ol class="breadcrumb">
+        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
+        <li><a th:href="@{/searchproduct}"><i class="fa fa-dashboard"></i>search product</a></li>
+        <li class="active">product detail</li>
+      </ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content container-fluid">
+			
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+				
+						<div class="box box-primary">
+							<div class="box-header with-border">
+								<h3 class="box-title">Product Detail</h3>
+								<div class="box-tools">								
+									<button id="btn-delete" class="btn btn-danger pull-right">delete</button>
+								</div>
+							</div>
+							<!-- /.box-header -->
+							<!-- form start -->
+							<form id="addproduct" role="form" action="#" method="post"
+								enctype="multipart/form-data">
+								<input type="hidden" th:name="${_csrf.parameterName}"
+									th:value="${_csrf.token}" />
+								<input type="hidden" th:name="product.id"
+									th:value="${product.id}" hidden="true" />
+								<div class="box-body">
+									<div class="form-group">
+										<label class="control-label" for="barcode"> <i
+											class="fa fa-times-circle-o hidden"></i> barcode
+										</label> <input th:value="${product.barcode}" disabled="disabled" type="text" name="product.barcode"
+											class="form-control" id="barcode" placeholder="barcode">
+										<p class="help-block hidden">barcode cannot be empty</p>
+									</div>
+									<div class="form-group ">
+
+										<label class="control-label" for="name"> <i
+											class="fa fa-times-circle-o hidden"></i> product name
+										</label> <input type="text"  th:value="${product.name}"  name="product.name" class="form-control"
+											id="name" placeholder="product name">
+										<p class="help-block hidden">product name cannot be empty</p>
+									</div>
+									<div class="form-group">
+										<label for="quantity"><i
+											class="fa fa-times-circle-o hidden"></i>quantity</label> <input
+											type="number" name="product.quantity_"  th:value="${product.quantity}"  class="form-control"
+											onkeyup="value=value.replace(/[^\d]/g,'')" id="quantity"
+											placeholder="quantity" value="0">
+										<p class="help-block hidden">quantity cannot be 0 or
+											negative</p>
+									</div>
+									<div class="form-group">
+										<label for="sellingprice"><i
+											class="fa fa-times-circle-o hidden"></i>selling price</label> <input
+											type="number" name="product.sellingprice_"
+											class="form-control" id="sellingprice"
+											placeholder="selling price" value="0"  th:value="${product.sellingprice_}" >
+										<p class="help-block hidden">selling price cannot be 0 or
+											negative</p>
+									</div>
+									<div class="form-group">
+										<label for="buyingprice"><i
+											class="fa fa-times-circle-o hidden"></i>buying price</label> <input
+											type="number" name="product.buyingprice_" min="0"
+											class="form-control" id="buyingprice"
+											 th:value="${product.buyingprice_}" 
+											placeholder="buying price" >
+										<p class="help-block hidden">buying price cannot be 0 or
+											negative</p>
+									</div>
+									<div class="form-group">
+										<label for="supplier"><i
+											class="fa fa-times-circle-o hidden"></i>supplier</label> <input
+											type="text" name="product.supplier" class="form-control"
+											id="supplier" placeholder="supplier"
+											 th:value="${product.supplier}" 
+											>
+										<p class="help-block hidden">supplier cannot be empty</p>
+									</div>
+									<div class="form-group">
+										<label>category</label> <select name="product.category"
+											class="form-control">
+
+											<option th:each="category,stat:${categories}" th:selected="${category.id==product.category}"
+												th:value="${category.id}" th:text="${category.name}"></option>
+
+										</select>
+									</div>
+
+									<div class="form-group">
+										<label for="vat">vat</label> 
+											<select name="product.vat" class="form-control" >
+											
+											<option th:each="v,stat:${vats}" th:selected="${v.rate==product.vat}" th:value="${v.id}" th:text="${v.rate}"></option>
+										
+										</select>
+					
+									</div>
+									<div class="form-group">
+										<label for="title"><i
+											class="fa fa-times-circle-o hidden"></i>title</label> <input
+											type="text" name="product.title" 
+											class="form-control" th:value="${product.title}" id="productTitle" placeholder="product title">
+										<p class="help-block hidden">product title cannot be empty</p>
+									</div>
+									<div class="form-group">
+										<label for="sub title"><i
+											class="fa fa-times-circle-o hidden"></i>sub title</label> <input
+											type="text" name="product.subtitle" 
+											class="form-control"  th:value="${product.subtitle}" id="subtitle"  placeholder="product subtitle">
+										<p class="help-block hidden">subtitle cannot be empty</p>
+									</div>
+									<img class="img-responsive"  th:src="${imgs[0].url}" />									
+									<div class="form-group">
+											<label for="exampleInputFile"><i
+											class="fa fa-times-circle-o hidden"></i>image change</label> <input
+											type="file" accept=".jpg,.png" id="image" name="file">
+										<p class="help-block hidden">file cannot be empty</p>
+										
+									</div>
+					
+									
+									<!-- <div class="checkbox">
+										<label> <input type="checkbox"> Check me out
+										</label>
+									</div> -->
+									<div class="box box-default">
+							<div class="box-header">
+								<h3 class="box-title">
+									product description <small>Advanced and full of features</small>
+								</h3>
+								<!-- tools box -->
+								<div class="pull-right box-tools">
+									<button type="button" class="btn btn-info btn-sm"
+										data-widget="collapse" data-toggle="tooltip" title="Collapse">
+										<i class="fa fa-minus"></i>
+									</button>
+								
+								</div>
+								<!-- /. tools -->
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body pad">
+								
+									<textarea id="editor1" form="addproduct"  value="${product.content}" name="product.content" rows="10" cols="80">
+                                           </textarea>
+								
+							</div>
+						</div>
+									
+								</div>
+								<!-- /.box-body -->
+
+								<div class="box-footer">
+									<button type="button" id="submit" class="btn btn-primary">Submit</button>
+								</div>
+							</form>
+							<div th:text="${result}!=null?${result.msg}"></div>
+						</div>
+
+						
+
+					</div>
+				</div>
+				
+				
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+
+		<div th:replace="footer.html"></div>
+
+		<!-- Control Sidebar -->
+		<div th:replace="right_sidebar.html"></div>
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED JS SCRIPTS -->
+
+	<!-- jQuery 3 -->
+	<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script
+		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<script th:src="@{/bower_components/ckeditor/ckeditor.js}"></script>
+	<script th:inline="javascript">
+	
+
+	
+	
+		$(document).ready(function() {
+			
+			CKEDITOR.replace('editor1');
+		
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+			    xhr.setRequestHeader(header, token);
+			});
+			
+			var editorValue=CKEDITOR.instances.editor1.setData([[${product.content}]]);
+
+			var lastErrorObj=null;
+			var hasError=false;
+			function validation(idName, number,num){
+			
+				var val = $("#" + idName).val().trim();
+				var li = $("#" + idName).prev().children("i").first();
+				var div = $("#" + idName).parent();
+				var p = $("#" + idName).next();
+				if(number){
+					if (val <= num) {
+						lastErrorObj=$("#" + idName);
+						div.addClass("has-error");
+						p.removeClass("hidden");
+						li.removeClass("hidden");
+						hasError=true;
+					} else {
+						div.removeClass("has-error")
+						p.addClass("hidden");
+						li.addClass("hidden")
+					}
+				}else{
+					if (val.length == 0) {
+						lastErrorObj=$("#" + idName);
+						div.addClass("has-error");
+						p.removeClass("hidden");
+						li.removeClass("hidden");
+						hasError=true;
+					} else {
+						div.removeClass("has-error")
+						p.addClass("hidden");
+						li.addClass("hidden")
+					}
+				}
+		
+			}
+
+			function validate(idName,number,num) {
+				
+				$("#" + idName).blur(function() {
+					validation(idName,number,num);
+				});
+				$("#" + idName).keyup(function() {
+					var val = $("#" + idName).val().trim();
+					var li = $("#" + idName).prev().children("i").first();
+					var div = $("#" + idName).parent();
+					var p = $("#" + idName).next();
+					if (val.length >= 1) {
+						div.removeClass("has-error")
+						p.addClass("hidden");
+						li.addClass("hidden")
+					}
+
+				});
+			}
+			validate("name",false,0);
+			validate("supplier",false,0);
+			validate("sellingprice",true,0);
+			validate("buyingprice",true,0);
+			validate("quantity",true,0);
+		
+			validate("barcode",false,0);
+		
+			function validateImg(obj){
+				var val = obj.val().trim();
+				var li = obj.prev().children("i").first();
+				var div =obj.parent();
+				var p = obj.next();
+			    if(val==""){
+			    	lastErrorObj=obj;
+					div.addClass("has-error");
+					p.removeClass("hidden");
+					li.removeClass("hidden");
+					hasError=true;
+				} else {
+					div.removeClass("has-error")
+					p.addClass("hidden");
+					li.addClass("hidden")
+				}
+			}
+			
+			$("#image").change(function(){
+				
+				
+				if((($(this).get(0).files[0].size).toFixed(2))>=(5*1024*1024)){
+					      alert("file size is too large, maximum 5MB");
+					      $(this).val("");   
+			    }
+			      validateImg($(this));
+				
+			});
+			
+			$("#btn-delete").click(function (){
+				$('#modal-delete').modal({
+					backdrop:"static",
+					keyboard:false
+				});
+			
+				
+			
+			});
+			
+			$("#btn_delete_product").click(function (){
+				$('#modal-info').modal({
+					backdrop:"static",
+					keyboard:false
+				});
+		     var context = [[@{/}]]+"product/delete/"+[[${product.id}]];
+        	 context=context.replace("\\","");
+		     $.ajax({
+		    	    url: context,
+		    	    type: 'DELETE',
+		    	    success: function(result) {
+			    	window.location.href=[[@{/}]].replace("\\","")+"searchproduct";
+		    	    },
+		    	    error:function(error,error1,error2){
+						   $('#modal-info').find("div #modal-progressbar").hide();
+						   $('#modal-info').find("div.modal-footer").eq(0).show();
+						   var p=$('#modal-info').find("div.modal-body").children("p").eq(0).show();
+						   p.text("error code:"+500 +"  " +error);
+					   }
+		    	    
+		    	});
+			});
+			$("#submit").click(function (){
+				hasError=false;
+				lastErrorObj=null;
+				//validateImg($("#image"));
+		
+				validation("supplier",false,0);
+				validation("buyingprice",true,0);
+				validation("sellingprice",true,0);
+				validation("quantity",true,0);
+				validation("name",false,0);
+				validation("barcode",false,0);
+
+				if(lastErrorObj!=null){
+					lastErrorObj.focus();
+				}else{
+					$('#modal-info').modal({
+						backdrop:"static",
+						keyboard:false
+					});
+				
+					$('#modal-info').find("div #modal-progressbar").eq(0).show();
+					
+					$('#modal-info').find("div.modal-body").children("p").eq(0).hide();
+					$('#modal-info').find("div.modal-footer").eq(0).hide();					
+			        var context = [[@{/}]]+"product/update";
+			        	context=context.replace("\\","");
+			        	
+			       var form = new FormData($("#addproduct")[0]);
+			       var editorValue=CKEDITOR.instances.editor1.getData()	   
+					form.append('product.content',editorValue);
+			       $.ajax(
+					{
+						   url:  context,
+						   type: 'POST',
+						   data: form,
+						   async: false,
+						   cache: false,
+						   contentType: false,
+						   processData: false,
+						   success: function (result) {
+							   $('#modal-info').find("div #modal-progressbar").hide();
+							   $('#modal-info').find("div.modal-footer").eq(0).show();
+							  
+							   var p=$('#modal-info').find("div.modal-body").children("p").eq(0).show();
+						 	if(result.code==200){
+						 		
+						 	
+						 		p.text(result.msg);
+						 		setTimeout(function(){					 			
+					 				$('#modal-info').modal('hide');		
+							 	},3000);			 		
+						 	}else{
+						 		p.text("error code:"+ result.code+" "+result.msg);
+						 	}
+						   },
+						   error:function(error,error1,error2){
+							   $('#modal-info').find("div #modal-progressbar").hide();
+							   $('#modal-info').find("div.modal-footer").eq(0).show();
+							   var p=$('#modal-info').find("div.modal-body").children("p").eq(0).show();
+							   p.text("error code:"+500 +"  " +error);
+						   }
+						   
+						   
+					}		
+					)
+				}
+			
+				
+			});
+			
+		});
+	
+		
+</script>
+
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+
+</body>
+</html>

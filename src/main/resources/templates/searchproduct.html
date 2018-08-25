@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>Storage System</title>
+<title th:replace="header_link.html"></title>
+<style type="text/css">
+</style>
+<!-- <script th:src="@{/masonry.pkgd.min.js"></script> -->
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini ">
+
+
+	<div class="wrapper">
+
+		<!-- Main Header -->
+		<div th:replace="header.html"></div>
+		<!-- Left side column. contains the logo and sidebar -->
+		<div th:replace="left_sidebar.html"></div>
+
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Searching <small>products</small>
+				</h1>
+				<ol class="breadcrumb">
+        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
+        <li class="active">search product</li>
+      </ol> 
+			</section>
+	
+			<!-- Main content -->
+			<section class="content container-fluid">
+
+				<div class="row" style="margin-bottom: 50px;">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="input-group input-group-md">
+							<div class="input-group-btn">
+								<button type="button" data-index="-1" id="btn_category"
+									class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									ALL <span class="fa fa-caret-down"></span>
+								</button>
+								<ul id="ul_dropdown" class="dropdown-menu">
+									<li><a href="#" data-index="-1">ALL</a></li>
+
+									<li th:if="${categories.code}==200"
+										th:each="category,stat:${categories.result}"><a href="#"
+										th:text="${category.name}" th:data-index="${category.id}">Another
+											action</a></li>
+
+								</ul>
+							</div>
+							<input data-provide="typeahead" id="input_search" autocomplete="off"  type="text" name="name" class="form-control typeahead">
+							<span class="input-group-btn">
+								<button type="button" class="btn btn-info btn-flat"
+									id="btn_search">go</button>
+							</span>
+						</div>
+
+
+					</div>
+				</div>
+				<div id="div_error" class="hidden alert alert-warning text-center">
+					<a href="#"  class="close" data-dismiss="alert"> &times; </a> <strong>warning！</strong>cannot
+					connect to network
+				</div>
+				<div id="div_loading"
+					class="alert hidden  alert-deafult text-center">
+					<!-- <a href="#" class="close" data-dismiss="alert">
+					&times;
+					</a> -->
+					<strong>loading</strong>
+					<div class="overlay">
+						<i class="fa fa-refresh fa-spin"></i>
+					</div>
+				</div>
+
+
+				<div class="row" id="div_productContent">
+				
+
+					<!-- <div class="row" th:if="${pageBean.code}!=200">
+						<div class="col-sm-4 col-xs-6 col-md-2 col-lg-2"></div>
+						<h3 th:text="${pageBean.msg}"></h3>
+					</div> -->
+
+				</div>
+			
+				<div class="row">
+
+					<div class="col-md-12 text-center">
+						<ul class="pagination" id="ul_pagination">
+
+
+						</ul>
+					</div>
+				</div>
+
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+
+		<div th:replace="footer.html"></div>
+
+		<!-- Control Sidebar -->
+		<div th:replace="right_sidebar.html"></div>
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED JS SCRIPTS -->
+
+	<!-- jQuery 3 -->
+	<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+
+	<!-- Bootstrap 3.3.7 -->
+	<script
+		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<script th:src="@{/dist/js/bootstrap3-typeahead.min.js}"></script>
+	<script th:src="@{/dist/js/bloodhound.min.js}"></script>
+	<script th:inline="javascript">
+	
+	function load(currentPage){
+		
+		$("#div_loading").removeClass("hidden");
+		$("#div_error").addClass("hidden");
+		
+		 var url = [[@{/}]]+"product/list?"+"currentPage=";
+			 url=url.replace("\\","");
+		 var index= $("#btn_category").data("index");
+		 var val=$("#input_search").val().trim();
+		 var context = [[@{/}]]+"product/get/";
+	        	context=context.replace("\\","");
+	  //bloodhound
+	   {
+		   var context = [[@{/}]]+"product/getName/";
+	        	context=context.replace("\\","");
+	   
+		   var engine = new Bloodhound({
+			   datumTokenizer: Bloodhound.tokenizers.whitespace,
+			   queryTokenizer: Bloodhound.tokenizers.whitespace,
+			   identify: function(obj) { return obj.id; },
+			   prefetch: context+"1.json",
+			   
+			   remote: {
+				    url: context+"-1.json",
+				   
+				  }
+			 });
+		   engine.initialize();
+		  
+
+		   $('#input_search').typeahead({
+		     fitToElement: true,
+		   	 items:8,
+		   	 minLength:1,
+		   	 delay:500,	
+		     name: 'all-category',
+		     display: 'name',
+		     source: engine.ttAdapter()
+		   });
+		   
+		   
+	   }
+		$.ajax({
+			
+			   async:true,
+			   url:  url+currentPage,
+			   type: 'POST',
+			   contentType: "application/json",
+			   data: JSON.stringify({category:index,name:val}),
+			   dataType:'json',
+			   success: function (result) {
+				 if(result.code!=200){
+					$("#div_error").removeClass("hidden");
+				 	setTimeout(function (){
+				 		$("#div_error").addClass("hidden");
+				 	},2000);
+				 }else{
+					 var context = [[@{/}]]+"product/get/";
+			        	context=context.replace("\\","");
+					 var html="";
+					 $.each(result.result.beans,function(index, content){	
+					 html+="<div class='col-sm-4 col-xs-6 col-md-2 col-lg-2'>"; 
+
+					 html+="<div class='thumbnail'>";
+					 html+="<a href='"+context+content.id+"'>	<img   class='img-responsive' src="+content.imgUrl+"></a>";
+					 html+="			<div class='caption'>";
+					 html+="			<h4>"+content.name+"</h4>";
+					 html+="			<h4 style='color:red'>￡"+(content.sellingprice/100)+"</h4>";
+					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 2;  \">"+content.title+"</p>";
+					 html+="			<p class=\"text-right\" style='"+(content.quantity<content.product_warning_quantity?'color:red':'')+"'>stock "+content.quantity+"</p>";
+					 html+="		</div> ";
+					 html+="		</div>";
+					 html+="	 ";
+					 html+=" </div>";
+
+				 });
+					 
+				 $("#div_productContent").html(html);
+				 html="";
+				 if(result.result.currentPage==0){
+				 html+="<li class='disabled'>";
+				 html+="<a href='#'  aria-label=\"Previous\"><span aria-hidden=\"true\">«</span></a>";
+				 }else{
+				 html+="<li>";
+				 html+="<a href='#' onclick=load("+(currentPage-1)+") aria-label=\"Previous\"><span aria-hidden=\"true\">«</span></a>";
+				 }
+				 html+="</li>";
+				 
+				 for(var i=result.result.beginNumber+1;i<result.result.endNumber+1;i++){
+				
+					 
+					if(result.result.currentPage+1==i){
+						 html+="<li  class=\"active\">";
+						 html+="<a  href='#'>"+i+"</a></li>";
+					}else{
+						 html+="<li>";
+						 html+="<a  href='#' onclick=load("+(i-1)+")>"+i+"</a></li>";
+					}
+			
+
+				 }
+				   if(result.result.currentPage+1==result.result.totalPage){
+						html+="<li class='disabled'>";
+						html+="<a href='#' aria-label=\"Next\"><span aria-hidden=\"true\">»</span></a></li>";
+				    }else{
+						html+="<li>";
+						html+="<a href='#' onclick=load("+(currentPage+1)+") aria-label=\"Next\"><span aria-hidden=\"true\">»</span></a></li>";
+				    }					 
+				    $("#ul_pagination").html(html);
+				 }						 
+				    $("#div_loading").addClass("hidden");						 	   							
+			   },
+			   error:function(error1,error2,error3){
+				
+				   $("#div_loading").addClass("hidden");
+				   $("#div_error").removeClass("hidden");
+				
+			   }
+	});	
+	};
+	
+	
+		$(document).ready(function() {
+			
+			$("#li_search").addClass("active");
+			
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+			    xhr.setRequestHeader(header, token);
+			});
+		
+			
+			$("#ul_dropdown").find("a").click(function (){
+				$("#btn_category").text($(this).text());
+				$("#btn_category").data("index",$(this).data("index"));
+			});
+		
+			
+			$("#btn_search").click(function(){
+				load(0);
+			});
+				load(0);
+			
+		});
+		
+		
+		
+		
+		
+	</script>
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+</body>
+</html>
+
