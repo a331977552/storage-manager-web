@@ -29,13 +29,14 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">operation</li>
+        <li class="header" th:text="#{left.title.operation}">operation</li>
         <!-- Optionally, you can add icons to the links -->
-        <li id="li_addproduct"><a th:href="@{/addproduct}"><i class="fa fa-link"></i> <span>Add Product</span></a></li>
-        <li  id="li_search"><a th:href="@{/searchproduct}"><i class="fa fa-link"></i> <span>Search Product</span></a></li>
-        <li  id="li_order"><a th:href="@{/order}"><i class="fa fa-link"></i> <span>Order</span></a></li>
-        <li  id="li_edit_category"><a th:href="@{/categorylist}"><i class="fa fa-link"></i> <span>Edit Category</span></a></li>
-        <li id="li_statement"><a th:href="@{/statement}"><i class="fa fa-link"></i> <span>Statement</span></a></li>
+        <li id="li_addproduct"><a th:href="@{/addproduct}"><i class="fa fa-link"></i> <span th:text="#{left.title.addProduct}" ></span></a></li>
+        <li  id="li_search"><a th:href="@{/searchproduct}"><i class="fa fa-link"></i> <span  th:text="#{left.title.searchProduct}">Search Product</span></a></li>
+        <li  id="li_order"><a th:href="@{/order}"><i class="fa fa-link"></i> <span  th:text="#{left.title.order}">Order</span></a></li>
+        <li  id="li_edit_category"><a th:href="@{/categorylist}"><i class="fa fa-link"></i> <span  th:text="#{left.title.edgeCategory}">Edit Category</span></a></li>
+        <li id="li_edgit_carousel"><a th:href="@{/findAllCarousel}"><i class="fa fa-link"></i> <span th:text="#{left.title.carousel}">Carousel</span></a></li>
+        <li id="li_statement"><a th:href="@{/statement}"><i class="fa fa-link"></i> <span th:text="#{left.title.statistics}">Statement</span></a></li>
         
       </ul>
       <!-- /.sidebar-menu -->

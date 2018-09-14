@@ -54,17 +54,17 @@ desired effect
 					Searching <small>products</small>
 				</h1>
 				<ol class="breadcrumb">
-        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
-        <li class="active">search product</li>
-      </ol> 
+					<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
+					<li class="active">search product</li>
+				</ol>
 			</section>
-	
+
 			<!-- Main content -->
 			<section class="content container-fluid">
 
-				<div class="row" style="margin-bottom: 50px;">
+				<div class="row" style="margin-bottom: 20px;">
 					<div class="col-md-6 col-md-offset-3">
-						<div class="input-group input-group-md">
+						<div class="input-group input-group-lg">
 							<div class="input-group-btn">
 								<button type="button" data-index="-1" id="btn_category"
 									class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -80,8 +80,10 @@ desired effect
 
 								</ul>
 							</div>
-							<input data-provide="typeahead" id="input_search" autocomplete="off"  type="text" name="name" class="form-control typeahead">
-							<span class="input-group-btn">
+							<input data-provide="typeahead" id="input_search"
+								autocomplete="off" type="text" name="name"
+								class="form-control typeahead"> <span
+								class="input-group-btn">
 								<button type="button" class="btn btn-info btn-flat"
 									id="btn_search">go</button>
 							</span>
@@ -91,7 +93,7 @@ desired effect
 					</div>
 				</div>
 				<div id="div_error" class="hidden alert alert-warning text-center">
-					<a href="#"  class="close" data-dismiss="alert"> &times; </a> <strong>warning！</strong>cannot
+					<a href="#" class="close" data-dismiss="alert"> &times; </a> <strong>warning！</strong>cannot
 					connect to network
 				</div>
 				<div id="div_loading"
@@ -104,10 +106,56 @@ desired effect
 						<i class="fa fa-refresh fa-spin"></i>
 					</div>
 				</div>
+				<div class="row">
 
+					<div class="col-md-12 text-left">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#tab_1" data-toggle="tab"
+									aria-expanded="true" th:text="#{search.product.sortingRule}" >排序规则</a></li>
+								<li class=""><a href="#tab_2" data-toggle="tab"
+									aria-expanded="false" th:text="#{search.product.filter}"  >筛选</a></li>
+								<li class=""><a href="#tab_3" data-toggle="tab"
+									aria-expanded="false">Tab 3</a></li>
+							</ul>
+							<div class="tab-content" style="padding-bottom: 3px;">
+								<div class="tab-pane active" id="tab_1">
+
+									<div class="form-group" style="font-size: 18px;">
+									<label style="margin-right: 10px;"  th:text="#{search.product.sortBy}" >标准:</label>
+										<label> <input type="radio" name="sortRule"
+											class="minimal" value="updatetime" th:text="#{search.product.updateTime}" checked> 
+										</label> <label> <input type="radio" name="sortRule"
+											value="createdtime" class="minimal"  th:text="#{search.product.createdTime}" > 
+										</label> <label> <input type="radio" value="quantity"
+											name="sortRule" class="minimal" th:text="#{search.product.stock}"> 
+										</label>
+									
+									<label style="margin-left: 30px;margin-right: 10px;"  th:text="#{search.product.sortDirection}">方向:</label>
+										<label > <input type="radio" value="asc"
+											name="sortOrder" class="minimal"  th:text="#{search.product.asc}"> 
+										</label>
+										<label> <input type="radio" value="desc"
+											name="sortOrder" class="minimal" checked="checked"  th:text="#{search.product.desc}"> 
+										</label>
+										
+
+									</div>
+								</div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="tab_2"></div>
+								<!-- /.tab-pane -->
+								<div class="tab-pane" id="tab_3"></div>
+								<!-- /.tab-pane -->
+							</div>
+							<!-- /.tab-content -->
+						</div>
+
+					</div>
+				</div>
 
 				<div class="row" id="div_productContent">
-				
+
 
 					<!-- <div class="row" th:if="${pageBean.code}!=200">
 						<div class="col-sm-4 col-xs-6 col-md-2 col-lg-2"></div>
@@ -115,7 +163,7 @@ desired effect
 					</div> -->
 
 				</div>
-			
+
 				<div class="row">
 
 					<div class="col-md-12 text-center">
@@ -135,8 +183,7 @@ desired effect
 
 		<div th:replace="footer.html"></div>
 
-		<!-- Control Sidebar -->
-		<div th:replace="right_sidebar.html"></div>
+	
 
 	</div>
 	<!-- ./wrapper -->
@@ -153,15 +200,18 @@ desired effect
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
 	<script th:src="@{/dist/js/bootstrap3-typeahead.min.js}"></script>
 	<script th:src="@{/dist/js/bloodhound.min.js}"></script>
+	<script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
 	<script th:inline="javascript">
 	
 	function load(currentPage){
-		
+		 
 		$("#div_loading").removeClass("hidden");
 		$("#div_error").addClass("hidden");
 		
 		 var url = [[@{/}]]+"product/list?"+"currentPage=";
 			 url=url.replace("\\","");
+		
 		 var index= $("#btn_category").data("index");
 		 var val=$("#input_search").val().trim();
 		 var context = [[@{/}]]+"product/get/";
@@ -178,8 +228,7 @@ desired effect
 			   prefetch: context+"1.json",
 			   
 			   remote: {
-				    url: context+"-1.json",
-				   
+				    url: context+"-1.json",				   
 				  }
 			 });
 		   engine.initialize();
@@ -197,10 +246,14 @@ desired effect
 		   
 		   
 	   }
+	 	  var sortRule = $("input[name='sortRule']:checked").val();
+	 	  var sortOrder = $("input[name='sortOrder']:checked").val();
+		
+	   
 		$.ajax({
 			
 			   async:true,
-			   url:  url+currentPage,
+			   url:  url+currentPage+"&sort="+sortRule+"&sort_order="+sortOrder,
 			   type: 'POST',
 			   contentType: "application/json",
 			   data: JSON.stringify({category:index,name:val}),
@@ -215,16 +268,17 @@ desired effect
 					 var context = [[@{/}]]+"product/get/";
 			        	context=context.replace("\\","");
 					 var html="";
+					  var stockName= [[#{search.product.stockName}]];
 					 $.each(result.result.beans,function(index, content){	
 					 html+="<div class='col-sm-4 col-xs-6 col-md-2 col-lg-2'>"; 
 
 					 html+="<div class='thumbnail'>";
-					 html+="<a href='"+context+content.id+"'>	<img   class='img-responsive' src="+content.imgUrl+"></a>";
+					 html+="<a href='"+context+content.id+"'>	<img   class='img-responsive' width='100%'  src="+content.imgUrl+" ></a>";
 					 html+="			<div class='caption'>";
 					 html+="			<h4>"+content.name+"</h4>";
 					 html+="			<h4 style='color:red'>￡"+(content.sellingprice/100)+"</h4>";
-					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 2;  \">"+content.title+"</p>";
-					 html+="			<p class=\"text-right\" style='"+(content.quantity<content.product_warning_quantity?'color:red':'')+"'>stock "+content.quantity+"</p>";
+					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 1;  \">"+content.title+"</p>";
+					 html+="			<p class=\"text-right\" style='"+(content.quantity<content.product_warning_quantity?'color:red':'')+"'>"+stockName+" "+content.quantity+"</p>";
 					 html+="		</div> ";
 					 html+="		</div>";
 					 html+="	 ";
@@ -235,11 +289,11 @@ desired effect
 				 $("#div_productContent").html(html);
 				 html="";
 				 if(result.result.currentPage==0){
-				 html+="<li class='disabled'>";
-				 html+="<a href='#'  aria-label=\"Previous\"><span aria-hidden=\"true\">«</span></a>";
+				 	html+="<li class='disabled'>";
+				 	html+="<a href='#'  aria-label=\"Previous\"><span aria-hidden=\"true\">«</span></a>";
 				 }else{
-				 html+="<li>";
-				 html+="<a href='#' onclick=load("+(currentPage-1)+") aria-label=\"Previous\"><span aria-hidden=\"true\">«</span></a>";
+				 	html+="<li>";
+				 	html+="<a href='#' onclick=load("+(currentPage-1)+") aria-label=\"Previous\"><span aria-hidden=\"true\">«</span></a>";
 				 }
 				 html+="</li>";
 				 

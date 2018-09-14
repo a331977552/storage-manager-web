@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta charset="UTF-8" />
+
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>Storage System</title>
+
+
+<title th:replace="header_link.html"></title>
+  <link rel="stylesheet" type="text/css" th:href="@{/dist/css/bootstrap-editable.css}">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+   <div class="modal fade" id="modal-default">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">图片地址</h4>
+              </div>
+              <div class="modal-body">
+                <p id="p_pic_url"></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>              
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+
+	<div class="modal modal-danger fade" id="modal-delete">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button> -->
+					<h4 class="modal-title">warning</h4>
+				</div>
+				<div class="modal-body">
+					<p id="modal-body-info">确定要删除这个轮播图吗?</p>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+					<button id="btn_delete_category" type="button"
+						class="btn btn-default" data-dismiss="modal">Yes</button>
+					<!-- <button type="button" class="btn btn-primary">ok</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div class="modal modal-default fade" id="modal-info">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">adding carousel</h4>
+				</div>
+				<div class="modal-body">
+					<form id="addCarousel" role="form" action="#" method="post">
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" />
+						<div class="box-body">
+							<div class="form-group">
+								<label class="control-label" for="barcode"> <i
+									class="fa fa-times-circle-o hidden"></i> title
+								</label> <input type="text" name="title" class="form-control"
+									placeholder="标题">
+
+
+								<p class="help-block hidden">required</p>
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="barcode"> <i
+									class="fa fa-times-circle-o hidden"></i> url
+								</label> <input type="text" name="redirect_url" class="form-control"
+																												
+							
+									placeholder="url">
+								<p class="help-block hidden">required</p>
+							</div>
+							<div class="form-group">
+								<label class="control-label" for="barcode"> <i
+									class="fa fa-times-circle-o hidden"></i> 图片地址
+								</label> <input type="file" name="file" accept=".jpg,.png"
+									class="form-control" placeholder="图片上传">
+								<p class="help-block hidden">required</p>
+							</div>
+
+						</div>
+					</form>
+					<p id="modal-body-info">success</p>
+					<div id="modal-progressbar" class="progress active">
+						<div
+							class="progress-bar progress-bar-primary progress-bar-striped"
+							role="progressbar" aria-valuenow="100" aria-valuemin="0"
+							aria-valuemax="100" style="width: 100%">
+							<span class="sr-only">processing</span>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default"
+						id="btn_submit_add_carousel" th:text="#{common.add}">add</button>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{common.cancel}">cancel</button>
+				</div>
+
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div class="modal modal-default fade" id="modal-reminder">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">remind</h4>
+				</div>
+				<div class="modal-body">
+					<p id="modal-body-info">success</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">ok</button>
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+				</div>
+
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<div class="wrapper">
+
+		<!-- Main Header -->
+		<div th:replace="header.html"></div>
+		<!-- Left side column. contains the logo and sidebar -->
+		<div th:replace="left_sidebar.html"></div>
+
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Editing <small>Carousels</small>
+				</h1>
+				<!-- <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol> -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content container-fluid">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="box">
+							<div class="box-header">
+								<h3 class="box-title">Carousel Edit</h3>
+								<button class="btn-default" id="btn_add_carousel"
+									style="margin-left: 10px;" th:text="#{common.add}">add</button>
+								<div class="box-tools">
+
+									<div class="input-group input-group-sm" style="width: 150px;">
+
+										<input type="text" name="table_search"
+											class="form-control pull-right" placeholder="Search">
+
+										<div class="input-group-btn">
+											<button type="submit" class="btn btn-default">
+												<i class="fa fa-search"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body table-responsive no-padding">
+								<table id="user" class="table table-hover">
+									<tbody id="tbody">
+										<tr>
+											<th>index</th>
+
+											<th th:text="#{common.name}">name</th>
+											<th th:text="#{common.url}">url</th>
+											<th th:text="#{common.img}">img</th>
+											<th th:text="#{common.operation}">operation</th>
+										</tr>
+										<tr th:each="car,stat:${carousels}">
+											<td width="10%" th:text="${stat.index}">1</td>
+											<td width="20%">
+											<a th:text="${car.title}"
+												class="editable editable-click my_title" href="#" data-type="text"
+												data-original-title="" title="" data-title="enter new title"
+												th:data-pk="${car.id}">11-7-2014</a></td>
+											<td width="20%">
+											<a th:text="${car.redirect_url}"
+												class="editable editable-click  my_redirect_url" href="#" data-type="text"
+												data-original-title="" title=""
+												data-title="enter new redirect url"
+												th:data-pk="${car.id}">11-7-2014</a></td>
+											<td width="20%">
+											<a th:text="${car.pic_url}"
+												class="editable editable-click my_pic_url" href="#" data-type="text"
+												data-original-title="" title=""
+												data-title="enter new pic url" th:data-pk="${car.id}">11-7-2014</a></td>
+
+											<td width="10%"><a class="btn-link" href="#"
+												data-toggle="popover" th:data-id="${car.id}" th:text="#{common.delete}">delete</a></td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+
+
+							<!-- /.box-body -->
+							<div class="box-footer clearfix">
+								<ul class="pagination pagination-sm no-margin pull-right ">
+									<li class="paginate_button previous disabled"><a href="#">&lt;</a></li>
+									<li><a href="#">1</a></li>
+									<li class="paginate_button next disabled"><a href="#">&gt;</a></li>
+								</ul>
+							</div>
+						</div>
+						<!-- /.box -->
+					</div>
+
+
+				</div>
+				<div class="row">
+				<div class="col-md-12">
+					<form class="form-inline" action="#" id="generate_picurl">
+						  <div class="form-group">
+						    <label for="exampleInputName2" th:text="#{carousel.pic.name}">图片名称</label>
+						    <input type="file" accept=".jpg,.png" class="form-control" name="file" id="exampleInputName2">
+						  </div>
+						  
+						  <button type="button" id="btn_generate_picurl" class="btn btn-default" th:text="#{carousel.pic.generation}">生成图片地址</button>
+						</form>			
+				 </div>
+				 </div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+
+		<div th:replace="footer.html"></div>
+
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED JS SCRIPTS -->
+
+	<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script
+		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<script th:src="@{/bower_components/ckeditor/ckeditor.js}"></script>
+	<script th:src="@{/dist/js/bootstrap-editable.js}"></script>
+	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+	<script th:inline="javascript">
+    /*<![CDATA[*/  
+ 			$(document).ready(function() {
+			
+		
+			$("#li_edgit_carousel").addClass("active");
+	
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			$(document).ajaxSend(function(e, xhr, options) {
+			    xhr.setRequestHeader(header, token);
+			});
+			
+		
+			       
+			init();
+		    $("#btn_add_carousel").click(function (){
+				$('#modal-info').find("div.modal-body").children("p").eq(0).hide();	
+				$("#modal-progressbar").hide();
+				$("#addCarousel").show();	
+			    $('#modal-info').modal();	
+		  	}); 
+		 
+				  $("#btn_generate_picurl").click(function (){
+					
+					  var context=[[@{/}]].replace("\\","")+"productimg/addWithFullURL";
+					   var form = new FormData($("#generate_picurl")[0]);
+				       $.ajax(
+						{
+							   url:  context,
+							   type: 'POST',
+							   data: form,
+							   async: false,
+							   cache: false,
+							   contentType: false,
+							   processData: false,
+							   success: function (result) {
+								   console.log(result.result.url);
+								   $("#p_pic_url").text(result.result.url);
+							
+								   $("#modal-default").modal({
+										backdrop:"static",
+										keyboard:false
+									});  	
+							   },
+							   
+							   error:function (result){
+								   console.log(result);
+							   }
+						});
+							
+					 
+					 
+					  
+				  });
+			      	
+			 $("#btn_submit_add_carousel").click(function(){
+				$("#btn_submit_add_carousel").attr("disabled",true);
+					
+				   var context = [[@{/}]]+"carousel/add";
+				        	context=context.replace("\\","");
+				  
+				       var helpInfo= $('#modal-info').find("div.modal-body").children("p").eq(0);				
+						$("#modal-progressbar").show();
+						helpInfo.hide();
+						
+						 var form = new FormData($("#addCarousel")[0]);	
+						 $("#addCarousel").hide();	
+				    	$.ajax({
+				    		url:  context,
+							   type: 'POST',
+							   data: form,
+							   async: false,
+							   cache: false,
+							   contentType: false,
+							   processData: false,
+						
+							   success: function (result) {						
+							 	if(result.code==200){
+							 		$("#addCarousel")[0].reset();
+							 		helpInfo.text(result.msg).show();							 
+									$("#modal-progressbar").hide();
+									$("#addCarousel").hide();
+									addColumn(result);
+							
+									setTimeout(function(){
+										init();
+										$('#modal-info').modal('hide');
+									 	$("#btn_submit_add_carousel").removeAttr("disabled");
+									},800);
+								 		
+							 	}else{
+							 		helpInfo.text(result.msg).show();									 		
+									$("#modal-progressbar").hide();
+									$("#addCarousel").show();
+							 	$("#btn_submit_add_carousel").removeAttr("disabled");
+							 	}
+							   },
+							   error:function(error,error1,error2){								  							 		
+								   	helpInfo.text(error).show();
+									$("#modal-progressbar").hide();
+									$("#addCarousel").show();
+									$("#btn_submit_add_carousel").removeAttr("disabled");
+							   },
+				    	});					 
+				 }); 			
+		});
+
+			function init(){
+					
+				
+			       var url = [[@{/}]]+"carousel/update";
+			    	url=url.replace("\\","");
+		        	
+				 //defaults
+				   $.fn.editable.defaults.url = url; 
+
+				    //enable / disable
+				   $('#enable').click(function() {
+				       $('#user .editable').editable('toggleDisabled');
+				   });    
+				    
+					    //editables 
+					    $('#user a.my_title').editable({
+					        type: 'text',
+					        url: url,
+					        name:"title",
+					        title: 'enter new name',
+					        ajaxOptions: {
+					            dataType: 'json',
+					            type:'post'
+					         
+					        },
+					        success: function(response, newValue) {				        
+					            if(!response) {
+					                return "Unknown error!";
+					            }          
+					            
+					            if(response.success === false) {
+					                 return response.msg;
+					            }
+					        }        
+					    });
+					    //editables 
+					    $('#user a.my_redirect_url').editable({
+					        type: 'text',
+					        url: url,
+					        name:"redirect_url",
+					        title: 'enter new redirect url',
+					        ajaxOptions: {
+					            dataType: 'json',
+					            type:'post'
+					         
+					        },
+					        success: function(response, newValue) {				        
+					            if(!response) {
+					                return "Unknown error!";
+					            }          
+					            
+					            if(response.success === false) {
+					                 return response.msg;
+					            }
+					        }        
+					    });
+					    //editables 
+					    $('#user a.my_pic_url').editable({
+					        type: 'text',
+					        url: url,
+					        name:"pic_url",
+					        title: 'enter new pic url.',
+					        ajaxOptions: {
+					            dataType: 'json',
+					            type:'post'
+					         
+					        },
+					        success: function(response, newValue) {				        
+					            if(!response) {
+					                return "Unknown error!";
+					            }          
+					            
+					            if(response.success === false) {
+					                 return response.msg;
+					            }
+					        }        
+					    });
+					    $("#user a.btn-link").click(function (){
+					    	var id=$(this).data("id");
+					    	$('#modal-delete').modal({
+								backdrop:"static",
+								keyboard:false
+							});
+					    	$("#btn_delete_category").data("id",id);
+	
+					    });
+				        $("#btn_delete_category").click(function (){
+
+						   var context = [[@{/}]]+"carousel/delete/"+$("#btn_delete_category").data("id");
+					        	context=context.replace("\\","");
+
+					    	$.ajax({
+					    		   url:  context,
+								   type: 'delete',
+								   
+								   async: true,
+	
+								   dataType:"json",
+								   success: function (result) {						
+									 	if(result.code==200){								 		
+									 		var id=$("#btn_delete_category").data("id");							
+									 	var pa=	$("#user a[data-pk="+id+"]").parent().parent();
+									 		pa.remove();
+									 	showMsg(result.msg);
+									 	}else{
+									 		showMsg(result.msg);						 	
+									  	}
+								 	},
+								   error:function(error,error1,error2){								  							 		
+								   	showMsg("error: "+error);
+								   },
+					    	});
+				     
+				        });
+			
+				        };
+		function showMsg(msg){			
+			$('#modal-reminder').find("div.modal-body").children("p").eq(0).text(msg);				
+		    $('#modal-reminder').modal();				
+		}
+		
+		function addColumn(result){
+			var html="<tr>";
+			html+="<td width=10%>"+result.result.id+"</td>";               
+			html+="<td width=20%><a  class=\"editable editable-click\" href=\"#\" data-type='text'";
+			html+="data-original-title='' title='' data-title='enter new name'";
+			html+="data-pk="+result.result.id+" >"+result.result.title+"</a></td>";         
+			html+="<td width=20%><a  class=\"editable editable-click\" href=\"#\" data-type='text'";
+			html+="data-original-title='' title='' data-title='enter new name'";
+			html+="data-pk="+result.result.id+" >"+result.result.redirect_url+"</a></td>";         
+			html+="<td width=20%><a  class=\"editable editable-click\" href=\"#\" data-type='text'";
+			html+="data-original-title='' title='' data-title='enter new name'";
+			html+="data-pk="+result.result.id+" >"+result.result.pic_url+"</a></td>";         
+			
+			html+="<td width=10%><a class='btn-link' data-toggle=\"popover\" href='#' data-id="+result.result.id+">delete</a></td>";
+			
+			
+			html+="</tr>";				     
+			$("#tbody").append(html);
+				
+		}
+     /*]]>*/  
+     </script>
+</body>
+</html>

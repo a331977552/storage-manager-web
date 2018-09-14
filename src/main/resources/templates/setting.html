@@ -4,11 +4,11 @@ This is a starter template page. Use this page to start your new project from
 scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html xmlns:th="http://www.thymeleaf.org"
- xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
->
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
-  <title>Storage System</title>
-	<title th:replace="header_link.html" ></title>
+<title>Storage System</title>
+<title th:replace="header_link.html"></title>
+<meta charset="utf8" />
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -31,148 +31,179 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+	<div class="wrapper">
 
-  <!-- Main Header -->
-  <div th:replace="header.html"></div>
-  <!-- Left side column. contains the logo and sidebar -->
-  <div th:replace="left_sidebar.html"></div>
+		<!-- Main Header -->
+		<div th:replace="header.html"></div>
+		<!-- Left side column. contains the logo and sidebar -->
+		<div th:replace="left_sidebar.html"></div>
 
-  
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Setting
-        <small>change your future</small>
-      </h1>
-    <ol class="breadcrumb">
-        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li class="active">setting</li>
-      </ol>
-    </section>
 
-    <!-- Main content -->
-    <section class="content container-fluid">
-<div class="box box-widget widget-user">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-aqua-active">
-              <h3 class="widget-user-username">Alexander Pierce</h3>
-              <h5 class="widget-user-desc">Founder &amp; CEO</h5>
-            </div>
-            <div class="widget-user-image">
-              <img class="img-circle" th:src="@{/dist/img/user1-128x128.jpg}" alt="User Avatar">
-            </div>
-            <div class="box-footer">
-              <div class="row">
-                <div class="col-sm-4 border-right">
-                  <div class="description-block">
-                    <h5 class="description-header">3,200</h5>
-                    <span class="description-text">SALES</span>
-                  </div>
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 border-right">
-                  <div class="description-block">
-                    <h5 class="description-header">13,000</h5>
-                    <span class="description-text">FOLLOWERS</span>
-                  </div>
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4">
-                  <div class="description-block">
-                    <h5 class="description-header">35</h5>
-                    <span class="description-text">PRODUCTS</span>
-                  </div>
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
-          </div>
-<div class="tab-pane active" id="settings">
-                <form class="form-horizontal">
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Setting <small></small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>Home</a></li>
+					<li class="active">setting</li>
+				</ol>
+			</section>
 
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+			<!-- Main content -->
+			<section class="content container-fluid">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title" th:text="#{profile.form.title}">公司信息设置</h3>
+							</div>
+							<!-- /.box-header -->
+							<!-- form start -->
+							<form class="form-horizontal" method="post"
+								th:action="@{/setting/update}">
+								<input type="text" th:if="${setting!=null}" name="id"
+									hidden="true" th:value="${setting.id}">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label"  th:text="#{profile.form.companyName}">公司名称</label>
 
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputName" class="col-sm-2 control-label">Name</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="companyname"
+												placeholder="公司名称"
+												th:value="${setting!=null}?${setting.companyname}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label"  th:text="#{profile.form.companyAddress}">公司地址</label>
 
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="companyaddress"
+												placeholder="公司地址"
+												th:value="${setting!=null}?${setting.companyaddress}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.postCode}">Post
+											Code</label>
 
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSkills" class="col-sm-2 control-label">Skills</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="postcode"
+												placeholder="Post Code"
+												th:value="${setting!=null}?${setting.postcode}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.phone}">电话</label>
 
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="phone"
+												placeholder="电话"
+												th:value="${setting!=null}?${setting.phone}">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.personalName}">个人名字</label>
 
-  <!-- Main Footer -->
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="name"
+												th:value="${setting!=null}?${setting.name}"
+												placeholder="私人名称">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.businessHour}">营业时间</label>
 
-  <div th:replace="footer.html"></div>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="businesshours"
+												th:value="${setting!=null}?${setting.businesshours}"
+												placeholder="营业时间">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.description}">描述</label>
 
-  <!-- Control Sidebar -->
-  <div th:replace="right_sidebar.html"></div>
- 
-</div>
-<!-- ./wrapper -->
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="description"
+												th:value="${setting!=null}?${setting.description}"
+												placeholder="描述">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.alipayURL}">支付宝
+											二维码地址</label>
 
-<!-- REQUIRED JS SCRIPTS -->
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="apliPayUrl"
+												th:value="${setting!=null}?${setting.apliPayUrl}"
+												placeholder="apliPayUrl" value="9">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label"  th:text="#{profile.form.wechatPayUrl}">微信
+											二维码地址</label>
 
-<!-- jQuery 3 -->
-<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
-<!-- Bootstrap 3.3.7 -->
-<script th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-<!-- AdminLTE App -->
-<script th:src="@{/dist/js/adminlte.min.js}"></script>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="wxPayUrl"
+												th:value="${setting!=null}?${setting.wxPayUrl}"
+												placeholder="apliPayUrl">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label"   th:text="#{profile.form.currencyRate}">汇率
+										</label>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
+										<div class="col-sm-10">
+											<input step="0.01" type="number" class="form-control"
+												name="currencyRate"
+												th:value="${setting!=null}?${setting.currencyRate}"
+												placeholder="汇率">
+										</div>
+									</div>
+								</div>
+								<!-- /.box-body -->
+								<div class="box-footer">
+									<p th:if="${param.error!=null}" th:text="${param.error}"></p>
+									<button type="submit" class="btn btn-info pull-right" th:text="#{common.confirm}">确定
+									</button>
+								</div>
+								<!-- /.box-footer -->
+							</form>
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+
+		<div th:replace="footer.html"></div>
+
+	
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED JS SCRIPTS -->
+
+	<!-- jQuery 3 -->
+	<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script
+		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+		<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+	<script>
+	
+	</script>
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
 </body>

@@ -14,13 +14,14 @@ import org.springframework.util.StringUtils;
 import com.storage.entity.Manager;
 import com.storage.entity.custom.MyManager;
 import com.storage.entity.custom.StorageResult;
+import com.storage.remote.service.ManagerRemoteService;
 import com.storage.service.ManagerService;
 
 @Service
 public class ManagerDetailService implements UserDetailsService {
 
 	@Autowired
-	ManagerService service;
+	ManagerRemoteService service;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		if(StringUtils.isEmpty(username.trim())) {
@@ -28,11 +29,12 @@ public class ManagerDetailService implements UserDetailsService {
 		}
 		Manager manager=new Manager();
 
-
+		
 		manager.setUsername(username);
-		StorageResult managerByExample = this.service.getManagerByExample(manager);
+		StorageResult<List<Manager>> managerByExample = this.service.getManagerByExample(manager);
+		
 		if(managerByExample.getResult()!=null ) {
-			List<Manager> result = (List<Manager>) managerByExample.getResult();
+			List<Manager> result = managerByExample.getResult();
 			if(result.size()==0) {
 				throw new UsernameNotFoundException("can find the username: "+ username);
 			}

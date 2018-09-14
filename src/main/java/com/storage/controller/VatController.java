@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.storage.entity.Vat;
+import com.storage.remote.service.VatRemoteService;
 import com.storage.service.VatService;
 
 @RestController()
 @RequestMapping("/vat")
 public class VatController {
-
+	
 	@Autowired
-	VatService service;
+	VatRemoteService service;
 
 	@PostMapping("/add")
 	public Object addVat(Vat vat) {
@@ -26,7 +27,7 @@ public class VatController {
 	@GetMapping("/get/{id}")
 	public Object getVat(@PathVariable(name = "id") Integer id) {
 
-		return this.service.getVatById(id);
+		return this.service.getVat(id);
 	}
 
 	@GetMapping("/delete/{id}")

@@ -117,7 +117,7 @@ desired effect
 							<div class="box-header with-border">
 								<h3 class="box-title">Product Detail</h3>
 								<div class="box-tools">								
-									<button id="btn-delete" class="btn btn-danger pull-right">delete</button>
+									<button id="btn-delete" class="btn btn-danger pull-right" th:text="#{common.delete}">delete</button>
 								</div>
 							</div>
 							<!-- /.box-header -->
@@ -131,7 +131,7 @@ desired effect
 								<div class="box-body">
 									<div class="form-group">
 										<label class="control-label" for="barcode"> <i
-											class="fa fa-times-circle-o hidden"></i> barcode
+											class="fa fa-times-circle-o hidden"></i> <span th:text="#{description.addproduct.barcode}">barcode</span>
 										</label> <input th:value="${product.barcode}" disabled="disabled" type="text" name="product.barcode"
 											class="form-control" id="barcode" placeholder="barcode">
 										<p class="help-block hidden">barcode cannot be empty</p>
@@ -139,23 +139,23 @@ desired effect
 									<div class="form-group ">
 
 										<label class="control-label" for="name"> <i
-											class="fa fa-times-circle-o hidden"></i> product name
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.productName}"> product name</span>
 										</label> <input type="text"  th:value="${product.name}"  name="product.name" class="form-control"
 											id="name" placeholder="product name">
 										<p class="help-block hidden">product name cannot be empty</p>
 									</div>
 									<div class="form-group">
 										<label for="quantity"><i
-											class="fa fa-times-circle-o hidden"></i>quantity</label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.quantity}">quantity</span></label> <input
 											type="number" name="product.quantity_"  th:value="${product.quantity}"  class="form-control"
 											onkeyup="value=value.replace(/[^\d]/g,'')" id="quantity"
-											placeholder="quantity" value="0">
+											placeholder="quantity" value="1">
 										<p class="help-block hidden">quantity cannot be 0 or
 											negative</p>
 									</div>
 									<div class="form-group">
 										<label for="sellingprice"><i
-											class="fa fa-times-circle-o hidden"></i>selling price</label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.sellingprice}">selling price</span></label> <input
 											type="number" name="product.sellingprice_"
 											class="form-control" id="sellingprice"
 											placeholder="selling price" value="0"  th:value="${product.sellingprice_}" >
@@ -164,7 +164,7 @@ desired effect
 									</div>
 									<div class="form-group">
 										<label for="buyingprice"><i
-											class="fa fa-times-circle-o hidden"></i>buying price</label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.buyingprice}">buying price</span></label> <input
 											type="number" name="product.buyingprice_" min="0"
 											class="form-control" id="buyingprice"
 											 th:value="${product.buyingprice_}" 
@@ -174,7 +174,7 @@ desired effect
 									</div>
 									<div class="form-group">
 										<label for="supplier"><i
-											class="fa fa-times-circle-o hidden"></i>supplier</label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.supplier}">supplier</span></label> <input
 											type="text" name="product.supplier" class="form-control"
 											id="supplier" placeholder="supplier"
 											 th:value="${product.supplier}" 
@@ -182,7 +182,7 @@ desired effect
 										<p class="help-block hidden">supplier cannot be empty</p>
 									</div>
 									<div class="form-group">
-										<label>category</label> <select name="product.category"
+										<label><span th:text="#{description.addproduct.category}">category</span></label> <select name="product.category"
 											class="form-control">
 
 											<option th:each="category,stat:${categories}" th:selected="${category.id==product.category}"
@@ -195,21 +195,21 @@ desired effect
 										<label for="vat">vat</label> 
 											<select name="product.vat" class="form-control" >
 											
-											<option th:each="v,stat:${vats}" th:selected="${v.rate==product.vat}" th:value="${v.id}" th:text="${v.rate}"></option>
+											<option th:each="v,stat:${vats}" th:selected="${v.rate==product.vat}" th:value="${v.rate}" th:text="${v.rate}"></option>
 										
 										</select>
 					
 									</div>
 									<div class="form-group">
 										<label for="title"><i
-											class="fa fa-times-circle-o hidden"></i>title</label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.title}">title</span></label> <input
 											type="text" name="product.title" 
 											class="form-control" th:value="${product.title}" id="productTitle" placeholder="product title">
 										<p class="help-block hidden">product title cannot be empty</p>
 									</div>
-									<div class="form-group">
+									<div class="form-group hidden">
 										<label for="sub title"><i
-											class="fa fa-times-circle-o hidden"></i>sub title</label> <input
+											class="fa fa-times-circle-o hidden"></i>sub title</label> <input hidden="true"
 											type="text" name="product.subtitle" 
 											class="form-control"  th:value="${product.subtitle}" id="subtitle"  placeholder="product subtitle">
 										<p class="help-block hidden">subtitle cannot be empty</p>
@@ -256,7 +256,7 @@ desired effect
 								<!-- /.box-body -->
 
 								<div class="box-footer">
-									<button type="button" id="submit" class="btn btn-primary">Submit</button>
+									<button type="button" id="submit" class="btn btn-primary"  th:text="#{common.submit}">Submit</button>
 								</div>
 							</form>
 							<div th:text="${result}!=null?${result.msg}"></div>
@@ -277,8 +277,7 @@ desired effect
 
 		<div th:replace="footer.html"></div>
 
-		<!-- Control Sidebar -->
-		<div th:replace="right_sidebar.html"></div>
+		
 
 	</div>
 	<!-- ./wrapper -->
@@ -293,6 +292,7 @@ desired effect
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
 	<script th:src="@{/bower_components/ckeditor/ckeditor.js}"></script>
+		<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
 	<script th:inline="javascript">
 	
 

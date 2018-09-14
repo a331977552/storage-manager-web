@@ -1,5 +1,7 @@
 package com.storage.controller;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.storage.entity.Manager;
+import com.storage.remote.service.ManagerRemoteService;
 import com.storage.service.ManagerService;
 
 @Controller()
@@ -17,8 +20,9 @@ import com.storage.service.ManagerService;
 @PropertySource("classpath:myapp.properties")
 public class ManagerController {
 
+	
 	@Autowired
-	ManagerService service;
+	ManagerRemoteService service;
 
 	@Value("${cookie.TokenName}")
 	String tokenName;
@@ -33,11 +37,11 @@ public class ManagerController {
 
 		return model;
 	}*/
-
+	
 	@GetMapping("/get/{id}")
 	public Object getManager(@PathVariable(name = "id") Integer id) {
 
-		return this.service.getManagerById(id);
+		return this.service.getManager(id);
 	}
 
 	@GetMapping("/delete/{id}")

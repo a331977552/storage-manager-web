@@ -7,6 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<meta charset="utf8">
 <title>Storage System</title>
 <link th:href="@{/dist/css/bootstrap-editable.css}" rel="stylesheet">
 
@@ -167,7 +168,7 @@ desired effect
 									<div class="box-tools">								
 									<div class="input-group input-group-sm " style="width: 250px;">												
 										<input  id="input_scan" type="text" name="table_search" autocomplete="false"
-											class="form-control pull-right" placeholder="start">
+											class="form-control pull-right" th:placeholder="#{description.addproduct.barcode}">
 										<div class="input-group-btn">
 											<button id="btn_search_product"  type="submit" class="btn btn-default">
 												<i class="fa fa-search"></i>
@@ -182,11 +183,11 @@ desired effect
 									<tbody id="tbody">
 										<tr>
 											<th><input id="checkbox_parent" type="checkbox" /></th>
-											<th>products</th>
-											<th>cost</th>
-											<th>Qty</th>
-											<th>Subtotal</th>
-											<th>operation</th>
+											<th th:text="#{order.table.products}">products</th>
+											<th th:text="#{order.table.cost}">cost</th>
+											<th th:text="#{order.table.qty}">Qty</th>
+											<th th:text="#{order.table.subtotal}">Subtotal</th>
+											<th th:text="#{common.operation}">operation</th>
 										</tr>							
 									</tbody>
 								</table>
@@ -196,7 +197,7 @@ desired effect
 							<!-- /.box-body -->
 							<div class="box-footer clearfix">
 							
-								<h3 id="h3_totalPrice" class="no-margin pull-right">total price: 0</h3>
+								<h3 id="h3_totalPrice" class="no-margin pull-right" th:text="#{order.table.totalPrice}+'0'">total price: 0</h3>
 							</div>
 						<!-- /.box -->
 						
@@ -227,7 +228,7 @@ desired effect
 						
 									<div class="form-group">
 										<label class="control-label" for="barcode"> <i
-											class="fa fa-times-circle-o hidden"></i> customer name
+											class="fa fa-times-circle-o hidden"></i> <span th:text="#{order.form.customerName}">customer name</span>
 										</label> <input type="text" name="name" data-provide="typeahead" autocomplete="off"
 											class="form-control typeahead" id="customer_name" placeholder="customer name">
 										<p class="help-block hidden">customer name cannot be empty</p>
@@ -235,14 +236,14 @@ desired effect
 									<div class="form-group ">
 
 										<label class="control-label" for="name"> <i
-											class="fa fa-times-circle-o hidden"></i> phone
+											class="fa fa-times-circle-o hidden"></i> <span th:text="#{order.form.phone}">phone</span>
 										</label> <input type="text" name="phone" class="form-control"
 											id="input_phone" placeholder="phone number">
 										<p class="help-block hidden">phone number cannot be empty</p>
 									</div>
 									<div class="form-group">
 										<label for="quantity"><i
-											class="fa fa-times-circle-o hidden"></i>address</label> <input
+											class="fa fa-times-circle-o hidden"></i> <span th:text="#{order.form.address}">address</span></label> <input
 											type="text" name="address" class="form-control"
 											 id="input_address"
 											placeholder="address" >
@@ -251,7 +252,7 @@ desired effect
 									</div>
 									<div class="form-group">
 										<label for="sellingprice"><i
-											class="fa fa-times-circle-o hidden"></i>Post Code</label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{order.form.postCode}">post code</span></label> <input
 											type="text" name="postcode"
 											class="form-control" id="input_postcode"
 											placeholder="Post Code" >
@@ -266,7 +267,7 @@ desired effect
 
 							<div class="box-footer clearfix">
 						
-								<button id="btn_confirm" class="btn btn-primary">submit</button>
+								<button id="btn_confirm" class="btn btn-primary" th:text="#{common.submit}">submit</button>
 
 							
 							</div>
@@ -288,8 +289,7 @@ desired effect
 
 		<div th:replace="footer.html"></div>
 
-		<!-- Control Sidebar -->
-		<div th:replace="right_sidebar.html"></div>
+		
 
 	</div>
 	<!-- ./wrapper -->
@@ -306,9 +306,14 @@ desired effect
 	<script th:src="@{/dist/js/bootstrap-editable.js}"></script>
 	<script th:src="@{/dist/js/bootstrap3-typeahead.min.js}"></script>
 	<script th:src="@{/dist/js/bloodhound.min.js}"></script>
-	
+		<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
 	<script th:inline="javascript">
 	
+	var code=[[${param.code}]];
+	if(code!=null&&code!=200){
+	var msg=[[${param.msg}]];
+		alert(msg);
+	}
 	function load(currentPage){
 		
 		$("#div_loading").removeClass("hidden");
@@ -444,7 +449,8 @@ desired effect
 	    			form.submit();
 	    			}
 	    	else{
-	    		showMsg("there are items in the shopping cart yet!");
+	    		var reminder=[[#{order.form.emptyorder.reminder}]];
+	    		showMsg(reminder);
 	    	}
 	    		
 	    	});
@@ -507,18 +513,18 @@ desired effect
  				}
  				var totalPrice=_quantity*parseInt(price)/100;				 				
  				item.eq(0).children().eq(3).children().eq(1).text(_quantity+"");
- 				item.eq(0).children().eq(4).text("￡"+totalPrice);					 				
+ 				item.eq(0).children().eq(4).text("£"+totalPrice);					 				
  			}else{																
 				var html="<tr data-id="+id+" data-quantity="+quantity+">";		
 				html+='<td><input type="checkbox" /></td>';
 				html+="<td>"+name+"</td>";
-				html+="<td>￡"+(price/100)+"</td>";
+				html+="<td>£"+(price/100)+"</td>";
 				html+="<td>";
 				html+="<a class=\"btn btn-link\" data-price="+price+" data-ref=\"minus\" data-id="+id+"  >-</a>";
 				html+="<strong>1</strong>";
 				html+="<a class=\"btn btn-link\" data-quantity="+quantity+" data-price="+price+" data-ref=\"plus\" data-id="+id+"   >+</a>";
 				html+="</td>"
-				html+="<td>￡"+(price/100)+"</td>";
+				html+="<td>£"+(price/100)+"</td>";
 				html+="<td width=10%><a class='btn-link' data-ref='delete' href='#' data-id="+id+">delete</a></td>";
 				html+="</tr>";	
 				$("#tbody").append(html);						
@@ -549,7 +555,7 @@ desired effect
 	 					quantity=0;
 	 				var totalPrice=quantity*parseInt($(this).data("price"))/100;				 				
 	 				item.eq(0).children().eq(3).children().eq(1).text(quantity+"");
-	 				item.eq(0).children().eq(4).text("￡"+totalPrice);		
+	 				item.eq(0).children().eq(4).text("£"+totalPrice);		
 					updatePrice();
 				});	
 				$("#tbody tr td a[data-ref='plus']").unbind("click");
@@ -564,7 +570,7 @@ desired effect
 	 				}
 	 				var totalPrice=quantity*parseInt($(this).data("price"))/100;				 				
 	 				item.eq(0).children().eq(3).children().eq(1).text(quantity+"");
-	 				item.eq(0).children().eq(4).text("￡"+totalPrice);
+	 				item.eq(0).children().eq(4).text("£"+totalPrice);
 	 				updatePrice();
 				});					
  			}
@@ -591,6 +597,7 @@ desired effect
 			});
 		}
 		function initCustomerName(){
+			return ;
 			validate("input_address",false,0);
 			validate("input_phone",false,0);
 			validate("input_postcode",false,0);
@@ -651,8 +658,8 @@ desired effect
 					totalPrice+=parseFloat(num);									
 				}
 			});
-			
-			$("#h3_totalPrice").text("total Price: £"+totalPrice.toFixed(2));
+			var nameOfTotalPrice=[[#{order.table.totalPrice}]];
+			$("#h3_totalPrice").text(nameOfTotalPrice+": £"+(totalPrice.toFixed(2)));
 			
 			
 			
@@ -687,7 +694,7 @@ desired effect
 				   engine.initialize();
 				  
 
-				   $('#input_scan').typeahead({
+				   /* $('#input_scan').typeahead({
 				     fitToElement: true,
 				     autoSelect:true,
 				   	 items:8,
@@ -697,15 +704,15 @@ desired effect
 				     display: 'name',
 				     source: engine.ttAdapter(),
 				     displayText: function (item) {
-		                    return item.name;//返回字符串
+		                    return item.name;//杩斿洖瀛楃涓�
 		              },
 		                afterSelect: function (item) {
-		                    //选择项之后的事件 ，item是当前选中的。
+		                    //閫夋嫨椤逛箣鍚庣殑浜嬩欢 锛宨tem鏄綋鍓嶉�変腑鐨勩��
 		                    
 		                    console.log("afterSelect"+item.name);
 		              },
 				
-				   });
+				   }); */
 					
 			
 			 

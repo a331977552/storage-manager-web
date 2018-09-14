@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.storage.entity.StOrder;
+import com.storage.remote.service.StOrderRemoteService;
 import com.storage.service.StOrderService;
 
 @RestController()
 @RequestMapping("/stOrder")
 public class StOrderController {
-
+	
 	@Autowired
-	StOrderService service;
+	StOrderRemoteService service;
 
 	@PostMapping("/add")
 	public Object addStOrder(StOrder stOrder) {
@@ -26,7 +27,7 @@ public class StOrderController {
 	@GetMapping("/get/{id}")
 	public Object getStOrder(@PathVariable(name = "id") Integer id) {
 
-		return this.service.getStOrderById(id);
+		return this.service.getStOrder(id);
 	}
 
 	@GetMapping("/delete/{id}")

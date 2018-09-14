@@ -1,5 +1,7 @@
 package com.storage.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,20 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.storage.entity.Category;
 import com.storage.entity.custom.CustomeCategory;
-import com.storage.service.CategoryService;
+import com.storage.remote.service.CategoryRemoteService;
 
 @RestController()
 @RequestMapping("/category")
 @PropertySource("classpath:myapp.properties")
-public class CategoryController {
+public class CategoryController  {
 
 
-			
+	
 	@Autowired
-	CategoryService service;
-
+	CategoryRemoteService service;
+	Logger logger = LoggerFactory.getLogger(CategoryController.class);
 	@PostMapping("/add")
 	public Object addCategory(Category category) {
+		logger.error(category.toString());
 
 		return this.service.addCategory(category);
 	}
@@ -31,7 +34,7 @@ public class CategoryController {
 	@GetMapping("/get/{id}")
 	public Object getCategory(@PathVariable(name = "id") Integer id) {
 
-		return this.service.getCategoryById(id);
+		return this.service.getCategory(id);
 	}
 
 	@GetMapping("/delete/{id}")

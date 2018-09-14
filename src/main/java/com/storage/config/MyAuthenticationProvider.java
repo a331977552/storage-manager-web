@@ -21,6 +21,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 	private ManagerDetailService userService;
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+		
 		String name = authentication.getName();
 		String password = (String) authentication.getCredentials();
 		try {

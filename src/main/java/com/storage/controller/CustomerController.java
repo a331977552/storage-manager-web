@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.storage.entity.Customer;
+import com.storage.remote.service.CustomerRemoteService;
 import com.storage.service.CustomerService;
 
 @RestController()
 @RequestMapping("/customer")
 public class CustomerController {
-
+	
 	@Autowired
-	CustomerService service;
+	CustomerRemoteService service;
 
 	@PostMapping("/add")
 	public Object addCustomer(Customer customer) {
@@ -27,7 +28,7 @@ public class CustomerController {
 
 	@GetMapping("/get/{id}")
 	public Object getCustomer(@PathVariable(name = "id") Integer id) {
-		return this.service.getCustomerById(id);
+		return this.service.getCustomer(id);
 	}
 	@GetMapping("/getbyName")
 	@ResponseBody
@@ -39,14 +40,14 @@ public class CustomerController {
 	@ResponseBody
 	public Object getCustomer(@PathVariable(name="order")String order) {
 
-		return this.service.getCustomerList(order);
+		return this.service.getCustomer(order);
 	}
 
 	@GetMapping("/list")
 	@ResponseBody
 	public Object list() {
 
-		return this.service.List();
+		return this.service.list().getBody();
 	}
 
 	@GetMapping("/delete/{id}")

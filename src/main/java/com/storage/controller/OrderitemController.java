@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.storage.entity.Orderitem;
+import com.storage.remote.service.OrderitemRemoteService;
 import com.storage.service.OrderitemService;
 
 @RestController()
 @RequestMapping("/orderitem")
 public class OrderitemController {
-
+	
 	@Autowired
-	OrderitemService service;
+	OrderitemRemoteService service;
 
 	@PostMapping("/add")
 	public Object addOrderitem(Orderitem orderitem) {
@@ -26,7 +27,7 @@ public class OrderitemController {
 	@GetMapping("/get/{id}")
 	public Object getOrderitem(@PathVariable(name = "id") Integer id) {
 
-		return this.service.getOrderitemById(id);
+		return this.service.getOrderitem(id);
 	}
 
 	@GetMapping("/delete/{id}")

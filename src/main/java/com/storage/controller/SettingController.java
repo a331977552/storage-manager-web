@@ -1,21 +1,23 @@
 package com.storage.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.storage.entity.Setting;
-import com.storage.service.SettingService;
+import com.storage.entity.custom.StorageResult;
+import com.storage.remote.service.SettingRemoteService;
 
-@RestController()
+@Controller()
 @RequestMapping("/setting")
 public class SettingController {
-
+	
 	@Autowired
-	SettingService service;
+	SettingRemoteService service;
 
 	@PostMapping("/add")
 	public Object addSetting(Setting setting) {
@@ -25,8 +27,7 @@ public class SettingController {
 
 	@GetMapping("/get/{id}")
 	public Object getSetting(@PathVariable(name = "id") Integer id) {
-
-		return this.service.getSettingById(id);
+		return this.service.getSetting(id);
 	}
 
 	@GetMapping("/delete/{id}")
@@ -37,8 +38,15 @@ public class SettingController {
 
 
 	@PostMapping("/update")
-	public Object updateSetting(Setting setting) {
-		return this.service.updateSetting(setting);
+	public ModelAndView updateSetting(ModelAndView and,  Setting setting) {
+		StorageResult<Setting> updateSetting = this.service.updateSetting(setting);
+		if(updateSetting.isSuccess()) {
+			and.setViewName("redirect:/success?msg=success");
+		
+		}else {
+			and.setViewName("redirect:/setting?error="+updateSetting.getMsg());			
+		}
+		return and;
 	}
 	@GetMapping("/count")
 	public Object count() {

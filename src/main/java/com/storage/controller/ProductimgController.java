@@ -6,27 +6,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.storage.entity.Productimg;
-import com.storage.service.ProductimgService;
+import com.storage.remote.service.ProductimgRemoteService;
 
 @RestController()
 @RequestMapping("/productimg")
 public class ProductimgController {
-
+	
 	@Autowired
-	ProductimgService service;
+	ProductimgRemoteService service;
 
 	@PostMapping("/add")
-	public Object addProductimg(Productimg productimg) {
+	public Object addProductimg(MultipartFile file) {
 
-		return this.service.addProductimg(productimg);
+		return this.service.addImg(file);
 	}
+	@PostMapping("/addWithFullURL")
+	public Object addWithFullURL(MultipartFile file) {
+		
+		return this.service.addWithFullURL(file);
+	}
+
 
 	@GetMapping("/get/{id}")
 	public Object getProductimg(@PathVariable(name = "id") Integer id) {
 
-		return this.service.getProductimgById(id);
+		return this.service.getProductimg(id);
 	}
 
 	@GetMapping("/delete/{id}")
@@ -43,7 +50,4 @@ public class ProductimgController {
 	@GetMapping("/count")
 	public Object count() {
 		return this.service.count();
-	}
-
-
-}
+	}}
