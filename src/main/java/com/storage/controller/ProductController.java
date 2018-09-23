@@ -26,6 +26,7 @@ import com.storage.entity.custom.StorageResult;
 import com.storage.remote.service.CategoryRemoteService;
 import com.storage.remote.service.ProductRemoteService;
 import com.storage.remote.service.ProductimgRemoteService;
+import com.storage.remote.service.SettingRemoteService;
 import com.storage.remote.service.VatRemoteService;
 import com.storage.utils.JsonUtils;
 import com.storage.utils.StringUtils;
@@ -42,7 +43,8 @@ public class ProductController {
 
 	@Autowired
 	ProductimgRemoteService imgservice;
-
+	@Autowired
+	SettingRemoteService settingRemoteService;
 	@Autowired
 	VatRemoteService vatService;
 
@@ -123,6 +125,7 @@ public class ProductController {
 		product.setSort_order(sort_order);
 		ResponseEntity<String> product2 = this.service.getProduct(product, currentPage, pageSize);
 
+		
 		return product2.getBody();
 	}
 

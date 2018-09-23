@@ -20,5 +20,6 @@ public interface SettingRemoteService {
 	StorageResult<Setting>  updateSetting(@RequestBody Setting setting);
 	@GetMapping("/setting/count")
 	StorageResult<Long>  count();
-
+	@GetMapping("/setting/setting/getOne")	
+	StorageResult<Setting> getSetting();
 }

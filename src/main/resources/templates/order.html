@@ -147,30 +147,33 @@ desired effect
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-				Order <small> making</small>
+					Order <small> making</small>
 				</h1>
-<ol class="breadcrumb">
-        <li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
-        <li class="active">order</li>
-      </ol>
+				<ol class="breadcrumb">
+					<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
+					<li class="active">order</li>
+				</ol>
 			</section>
 
 			<!-- Main content -->
 			<section class="content container-fluid ">
-			
-				
+
+
 				<div class="row">
-					<div class="col-md-8 col-lg-8 col-md-offset-2  col-lg-offset-2 col-sm-12 col-xs-12" >
+					<div
+						class="col-md-8 col-lg-8 col-md-offset-2  col-lg-offset-2 col-sm-12 col-xs-12">
 						<div class="box">
 							<div class="box-header">
-								<button type="button" class="btn btn-danger" disabled="disabled" style="font-size: 12px;"
-								id="btn_delete">delete</button>
-									<div class="box-tools">								
-									<div class="input-group input-group-sm " style="width: 250px;">												
-										<input  id="input_scan" type="text" name="table_search" autocomplete="false"
-											class="form-control pull-right" th:placeholder="#{description.addproduct.barcode}">
+								<button type="button" class="btn btn-danger" disabled="disabled"
+									style="font-size: 12px;" id="btn_delete">delete</button>
+								<div class="box-tools">
+									<div class="input-group input-group-sm " style="width: 250px;">
+										<input id="input_scan" type="text" name="table_search"
+											autocomplete="false" class="form-control pull-right"
+											th:placeholder="#{description.addproduct.barcode}">
 										<div class="input-group-btn">
-											<button id="btn_search_product"  type="submit" class="btn btn-default">
+											<button id="btn_search_product" type="submit"
+												class="btn btn-default">
 												<i class="fa fa-search"></i>
 											</button>
 										</div>
@@ -188,7 +191,7 @@ desired effect
 											<th th:text="#{order.table.qty}">Qty</th>
 											<th th:text="#{order.table.subtotal}">Subtotal</th>
 											<th th:text="#{common.operation}">operation</th>
-										</tr>							
+										</tr>
 									</tbody>
 								</table>
 							</div>
@@ -196,16 +199,17 @@ desired effect
 
 							<!-- /.box-body -->
 							<div class="box-footer clearfix">
-							
-								<h3 id="h3_totalPrice" class="no-margin pull-right" th:text="#{order.table.totalPrice}+'0'">total price: 0</h3>
+
+								<h3 id="h3_totalPrice" class="no-margin pull-right"
+									th:text="#{order.table.totalPrice}+'0'">total price: 0</h3>
 							</div>
-						<!-- /.box -->
-						
-					</div>
-					
-					<div class="box box-primary">
-						<div class="box-header">
-							<div class="box-tools">								
+							<!-- /.box -->
+
+						</div>
+
+						<div class="box box-primary">
+							<div class="box-header">
+								<div class="box-tools">
 									<!-- <div class="input-group input-group-sm " style="width: 250px;">												
 										<input  data-provide="typeahead" id="input_search_customer"  type="text" name="customer.name"
 											class="form-control pull-right typeahead" autocomplete="off" placeholder="customer name">
@@ -216,70 +220,73 @@ desired effect
 										</div>
 									</div> -->
 								</div>
-											
-							
-						</div>
+
+
+							</div>
 							<div class="box-body">
-								<form id="createOrder" role="form" action="#" method="post" >
-								<input type="hidden" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}" />
-								<input type="hidden" id="input_customer_id" name="id" value="-1"
-									 />
-						
+								<form id="createOrder" role="form" action="#" method="post">
+									<input type="hidden" th:name="${_csrf.parameterName}"
+										th:value="${_csrf.token}" /> <input type="hidden"
+										id="input_customer_id" name="id" value="-1" />
+
 									<div class="form-group">
 										<label class="control-label" for="barcode"> <i
-											class="fa fa-times-circle-o hidden"></i> <span th:text="#{order.form.customerName}">customer name</span>
-										</label> <input type="text" name="name" data-provide="typeahead" autocomplete="off"
-											class="form-control typeahead" id="customer_name" placeholder="customer name">
+											class="fa fa-times-circle-o hidden"></i> <span
+											th:text="#{order.form.customerName}">customer name</span>
+										</label> <input type="text" name="name" data-provide="typeahead"
+											autocomplete="off" class="form-control typeahead"
+											id="customer_name" placeholder="customer name">
 										<p class="help-block hidden">customer name cannot be empty</p>
 									</div>
 									<div class="form-group ">
 
 										<label class="control-label" for="name"> <i
-											class="fa fa-times-circle-o hidden"></i> <span th:text="#{order.form.phone}">phone</span>
+											class="fa fa-times-circle-o hidden"></i> <span
+											th:text="#{order.form.phone}">phone</span>
 										</label> <input type="text" name="phone" class="form-control"
 											id="input_phone" placeholder="phone number">
 										<p class="help-block hidden">phone number cannot be empty</p>
 									</div>
 									<div class="form-group">
 										<label for="quantity"><i
-											class="fa fa-times-circle-o hidden"></i> <span th:text="#{order.form.address}">address</span></label> <input
+											class="fa fa-times-circle-o hidden"></i> <span
+											th:text="#{order.form.address}">address</span></label> <input
 											type="text" name="address" class="form-control"
-											 id="input_address"
-											placeholder="address" >
+											id="input_address" placeholder="address">
 										<p class="help-block hidden">quantity cannot be 0 or
 											negative</p>
 									</div>
 									<div class="form-group">
 										<label for="sellingprice"><i
-											class="fa fa-times-circle-o hidden"></i><span th:text="#{order.form.postCode}">post code</span></label> <input
-											type="text" name="postcode"
-											class="form-control" id="input_postcode"
-											placeholder="Post Code" >
+											class="fa fa-times-circle-o hidden"></i><span
+											th:text="#{order.form.postCode}">post code</span></label> <input
+											type="text" name="postcode" class="form-control"
+											id="input_postcode" placeholder="Post Code">
 										<p class="help-block hidden">selling price cannot be 0 or
 											negative</p>
 									</div>
-									
-						
-										</form>
-								</div>
-								<!-- /.box-body -->
+
+
+								</form>
+							</div>
+							<!-- /.box-body -->
 
 							<div class="box-footer clearfix">
-						
-								<button id="btn_confirm" class="btn btn-primary" th:text="#{common.submit}">submit</button>
 
-							
-							</div>
-						
-							</div>
-							
-					</div>
-					
-					</div>
-					
+								<button id="btn_confirm" class="btn btn-primary"
+									th:text="#{common.submit}">submit</button>
 
-				
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+
 			</section>
 			<!-- /.content -->
 		</div>
@@ -289,7 +296,7 @@ desired effect
 
 		<div th:replace="footer.html"></div>
 
-		
+
 
 	</div>
 	<!-- ./wrapper -->
@@ -306,7 +313,7 @@ desired effect
 	<script th:src="@{/dist/js/bootstrap-editable.js}"></script>
 	<script th:src="@{/dist/js/bootstrap3-typeahead.min.js}"></script>
 	<script th:src="@{/dist/js/bloodhound.min.js}"></script>
-		<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
 	<script th:inline="javascript">
 	
 	var code=[[${param.code}]];
@@ -501,6 +508,11 @@ desired effect
 		function addItem(result){
 			var id=result.id;
 			var quantity=result.quantity;
+			if(quantity==0)
+			{
+				alert("这个商品没库存了!");
+					return;
+			}
 			var price=result.sellingprice;
 			var name=result.name;
  			var item=$("#tbody tr[data-id="+id+"]");	
@@ -513,18 +525,18 @@ desired effect
  				}
  				var totalPrice=_quantity*parseInt(price)/100;				 				
  				item.eq(0).children().eq(3).children().eq(1).text(_quantity+"");
- 				item.eq(0).children().eq(4).text("£"+totalPrice);					 				
+ 				item.eq(0).children().eq(4).text("¥"+totalPrice);					 				
  			}else{																
 				var html="<tr data-id="+id+" data-quantity="+quantity+">";		
 				html+='<td><input type="checkbox" /></td>';
 				html+="<td>"+name+"</td>";
-				html+="<td>£"+(price/100)+"</td>";
+				html+="<td>¥"+(price/100)+"</td>";
 				html+="<td>";
 				html+="<a class=\"btn btn-link\" data-price="+price+" data-ref=\"minus\" data-id="+id+"  >-</a>";
 				html+="<strong>1</strong>";
 				html+="<a class=\"btn btn-link\" data-quantity="+quantity+" data-price="+price+" data-ref=\"plus\" data-id="+id+"   >+</a>";
 				html+="</td>"
-				html+="<td>£"+(price/100)+"</td>";
+				html+="<td>¥"+(price/100)+"</td>";
 				html+="<td width=10%><a class='btn-link' data-ref='delete' href='#' data-id="+id+">delete</a></td>";
 				html+="</tr>";	
 				$("#tbody").append(html);						
@@ -551,11 +563,11 @@ desired effect
 					var item=$("#tbody tr[data-id="+id+"]");							
 					var qu=item.eq(0).children().eq(3).children().eq(1);
 	 				var quantity=parseInt(qu.text())-1;
-	 				if(quantity<0)
-	 					quantity=0;
+	 				if(quantity<=0)
+	 					quantity=1;
 	 				var totalPrice=quantity*parseInt($(this).data("price"))/100;				 				
 	 				item.eq(0).children().eq(3).children().eq(1).text(quantity+"");
-	 				item.eq(0).children().eq(4).text("£"+totalPrice);		
+	 				item.eq(0).children().eq(4).text("¥"+totalPrice);		
 					updatePrice();
 				});	
 				$("#tbody tr td a[data-ref='plus']").unbind("click");
@@ -570,7 +582,7 @@ desired effect
 	 				}
 	 				var totalPrice=quantity*parseInt($(this).data("price"))/100;				 				
 	 				item.eq(0).children().eq(3).children().eq(1).text(quantity+"");
-	 				item.eq(0).children().eq(4).text("£"+totalPrice);
+	 				item.eq(0).children().eq(4).text("¥"+totalPrice);
 	 				updatePrice();
 				});					
  			}
@@ -659,7 +671,7 @@ desired effect
 				}
 			});
 			var nameOfTotalPrice=[[#{order.table.totalPrice}]];
-			$("#h3_totalPrice").text(nameOfTotalPrice+": £"+(totalPrice.toFixed(2)));
+			$("#h3_totalPrice").text(nameOfTotalPrice+": ¥"+(totalPrice.toFixed(2)));
 			
 			
 			

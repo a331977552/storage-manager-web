@@ -47,7 +47,7 @@
 						<li>
 							<!-- Inner Menu: contains the notifications -->
 							<ul class="menu" id="ul_reminder_menu">
-								<li th:each="re,stat:${stockReminder.result}"><a href="#">
+								<li th:each="re,stat:${stockReminder.result}"><a th:href="@{/product/get/}+${re.id}">
 										<i class="fa fa-users text-aqua"></i><span
 										th:text="${re.name}+' has '+${re.quantity}+' left'"></span>
 								</a></li>

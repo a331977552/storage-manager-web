@@ -14,29 +14,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 <title th:replace="header_link.html"></title>
-  <link rel="stylesheet" type="text/css" th:href="@{/dist/css/bootstrap-editable.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/dist/css/bootstrap-editable.css}">
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
-   <div class="modal fade" id="modal-default">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">图片地址</h4>
-              </div>
-              <div class="modal-body">
-                <p id="p_pic_url"></p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>              
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
+	<div class="modal fade" id="modal-default">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">图片地址</h4>
+				</div>
+				<div class="modal-body">
+					<p id="p_pic_url"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
 
 	<div class="modal modal-danger fade" id="modal-delete">
 		<div class="modal-dialog">
@@ -89,8 +93,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								<label class="control-label" for="barcode"> <i
 									class="fa fa-times-circle-o hidden"></i> url
 								</label> <input type="text" name="redirect_url" class="form-control"
-																												
-							
 									placeholder="url">
 								<p class="help-block hidden">required</p>
 							</div>
@@ -120,7 +122,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<button type="button" class="btn btn-default"
 						id="btn_submit_add_carousel" th:text="#{common.add}">add</button>
 
-					<button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{common.cancel}">cancel</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						th:text="#{common.cancel}">cancel</button>
 				</div>
 
 			</div>
@@ -167,7 +170,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					Editing <small>Carousels</small>
+					Editing <small>ADs</small>
 				</h1>
 				<!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
@@ -213,25 +216,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										</tr>
 										<tr th:each="car,stat:${carousels}">
 											<td width="10%" th:text="${stat.index}">1</td>
-											<td width="20%">
-											<a th:text="${car.title}"
-												class="editable editable-click my_title" href="#" data-type="text"
-												data-original-title="" title="" data-title="enter new title"
-												th:data-pk="${car.id}">11-7-2014</a></td>
-											<td width="20%">
-											<a th:text="${car.redirect_url}"
-												class="editable editable-click  my_redirect_url" href="#" data-type="text"
-												data-original-title="" title=""
-												data-title="enter new redirect url"
-												th:data-pk="${car.id}">11-7-2014</a></td>
-											<td width="20%">
-											<a th:text="${car.pic_url}"
-												class="editable editable-click my_pic_url" href="#" data-type="text"
-												data-original-title="" title=""
+											<td width="20%"><a th:text="${car.title}"
+												class="editable editable-click my_title" href="#"
+												data-type="text" data-original-title="" title=""
+												data-title="enter new title" th:data-pk="${car.id}">11-7-2014</a></td>
+											<td width="20%"><a th:text="${car.redirect_url}"
+												class="editable editable-click  my_redirect_url" href="#"
+												data-type="text" data-original-title="" title=""
+												data-title="enter new redirect url" th:data-pk="${car.id}">11-7-2014</a></td>
+											<td width="20%"><a th:text="${car.pic_url}"
+												class="editable editable-click my_pic_url" href="#"
+												data-type="text" data-original-title="" title=""
 												data-title="enter new pic url" th:data-pk="${car.id}">11-7-2014</a></td>
 
 											<td width="10%"><a class="btn-link" href="#"
-												data-toggle="popover" th:data-id="${car.id}" th:text="#{common.delete}">delete</a></td>
+												data-toggle="popover" th:data-id="${car.id}"
+												th:text="#{common.delete}">delete</a></td>
 										</tr>
 
 									</tbody>
@@ -253,18 +253,116 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 				</div>
+
 				<div class="row">
-				<div class="col-md-12">
-					<form class="form-inline" action="#" id="generate_picurl">
-						  <div class="form-group">
-						    <label for="exampleInputName2" th:text="#{carousel.pic.name}">图片名称</label>
-						    <input type="file" accept=".jpg,.png" class="form-control" name="file" id="exampleInputName2">
-						  </div>
-						  
-						  <button type="button" id="btn_generate_picurl" class="btn btn-default" th:text="#{carousel.pic.generation}">生成图片地址</button>
-						</form>			
-				 </div>
-				 </div>
+					<div class="col-md-12">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Top AD</h3>
+							</div>
+							<!-- /.box-header -->
+							<!-- form start -->
+							<form id="topAdForm" class="form-horizontal" role="form" action="#" method="post"
+								enctype="multipart/form-data">
+								<input th:if="${topAd!=null}" type="text" hidden="true"
+									name="id" th:value="${topAd.id}"> <input type="text"
+									hidden="true" name="position" value="1">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">message</label>
+
+										<div class="col-sm-10">
+											<input type="text" name="msg" class="form-control"
+												th:value="${topAd}!=null?${topAd.message}" placeholder="Message">
+										</div>
+
+									</div>
+
+
+
+
+		<button type="submit" id="btn_updateTop"
+										class="btn btn-info pull-right">update Ad</button>
+								</div>
+								<!-- /.box-body -->
+							
+							
+								<!-- /.box-footer -->
+							</form>
+						</div>
+
+
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box box-info">
+							<div class="box-header with-border">
+								<h3 class="box-title">Left AD</h3>
+							</div>
+							<!-- /.box-header -->
+							<!-- form start -->
+							<form id="leftAdForm" class="form-horizontal" role="form" action="#" method="post"
+								enctype="multipart/form-data">
+								<input th:if="${leftAd!=null}" type="text" hidden="true"
+									name="id" th:value="${leftAd.id}"> <input type="text"
+									hidden="true" name="position" value="2">
+								<div class="box-body">
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">picture
+											url</label>
+
+										<div class="col-sm-10">
+											<input type="url" name="imgUrl" class="form-control"
+												th:value="${leftAd}!=null?${leftAd.imgUrl}"
+												placeholder="img Url">
+										</div>
+
+									</div>
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">click
+											url</label>
+
+										<div class="col-sm-10">
+											<input type="url" name="clickUrl" class="form-control"
+												th:value="${leftAd}!=null?${leftAd.clickUrl}"
+												placeholder="click Url">
+
+										</div>
+
+									</div>
+
+
+	<button type="submit" id="btn_updateLeft"
+										class="btn btn-info pull-right">update Ad</button>
+							
+
+								</div>
+								<!-- /.box-body -->
+						
+								
+								<!-- /.box-footer -->
+							</form>
+						</div>
+
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<form class="form-inline" action="#" id="generate_picurl" >
+							<div class="form-group">
+								<label for="exampleInputName2" th:text="#{carousel.pic.name}">图片名称</label>
+								<input type="file" accept=".jpg,.png" class="form-control"
+									name="file" id="exampleInputName2">
+							</div>
+
+							<button type="button" id="btn_generate_picurl"
+								class="btn btn-default" th:text="#{carousel.pic.generation}">生成图片地址</button>
+						</form>
+					</div>
+				</div>
 			</section>
 			<!-- /.content -->
 		</div>
@@ -306,7 +404,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			});
 			
 		
-			       
+			       //TODO add advertisements.
 			init();
 		    $("#btn_add_carousel").click(function (){
 				$('#modal-info').find("div.modal-body").children("p").eq(0).hide();	
@@ -348,6 +446,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					  
 				  });
 			      	
+				  $("#btn_updateTop").click(function (){
+					  var context = [[@{/}]]+"ad/update";
+				        	context=context.replace("\\","");
+					  var form = new FormData($("#topAdForm")[0]);	
+					  
+					  $.ajax({
+				    		   url:  context,
+							   type: 'POST',
+							   data: form,
+							   async: false,
+							   cache: false,
+							   contentType: false,
+							   processData: false,						
+							   success: function (result) {
+								
+							   }
+				  	});
+				  
+				  });
+			      	
+				  $("#btn_updateLeft").click(function (){
+					var context = [[@{/}]]+"ad/update";
+				        	context=context.replace("\\","");
+					  var form = new FormData($("#leftAdForm")[0]);	
+					  $.ajax({
+			    		   url:  context,
+						   type: 'POST',
+						   data: form,
+						   async: false,
+						   cache: false,
+						   contentType: false,
+						   processData: false,						
+						   success: function (result) {
+							alert("修改成功");   
+						   }
+			  			});
+					  
+					  
+				  });
+				  
+				  
+				  
 			 $("#btn_submit_add_carousel").click(function(){
 				$("#btn_submit_add_carousel").attr("disabled",true);
 					

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+<title>Storage System</title>
+<title th:replace="header_link.html"></title>
+<link rel="stylesheet"
+	th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	th:href="@{/bower_components/Ionicons/css/ionicons.min.css}">
+<!-- DataTables -->
+<link rel="stylesheet"
+	th:href="@{/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+<meta charset="utf8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper">
+
+		<!-- Main Header -->
+		<div th:replace="header.html"></div>
+		<!-- Left side column. contains the logo and sidebar -->
+		<div th:replace="left_sidebar.html"></div>
+
+
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					订单 <small>管理</small>
+				</h1>
+				<ol class="breadcrumb">
+					<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
+					<li class="active">order management</li>
+				</ol>
+			</section>
+
+			<!-- Main content -->
+			<section class="content container-fluid">
+
+				<!--------------------------
+        | Your Page Content Here |
+        -------------------------->
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Order management</h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<table id="example2" class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th th:text="#{order.manage.orderNumber}">订单号</th>
+									<th th:text="#{order.manage.price}">价格</th>
+									<th th:text="#{common.name}">姓名</th>
+									<th th:text="#{order.manage.phone}">电话</th>
+									<th th:text="#{order.manage.createdTime}">创建日期</th>
+									<th th:text="#{order.manage.status}">订单状态</th>
+
+									<th th:text="#{common.operation}">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+
+							</tbody>
+							<tfoot>
+								<tr>
+									<th th:text="#{order.manage.orderNumber}">订单号</th>
+									<th th:text="#{order.manage.price}">价格</th>
+									<th th:text="#{common.name}">姓名</th>
+									<th th:text="#{order.manage.phone}">电话</th>
+									<th th:text="#{order.manage.createdTime}">创建日期</th>
+									<th th:text="#{order.manage.status}">订单状态</th>
+									<th th:text="#{common.operation}">操作</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<!-- /.box-body -->
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<!-- Main Footer -->
+
+		<div th:replace="footer.html"></div>
+
+
+
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- REQUIRED JS SCRIPTS -->
+
+	<!-- jQuery 3 -->
+	<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<!-- Bootstrap 3.3.7 -->
+	<script
+		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.min.js}"></script>
+	<script
+		th:src="@{/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+	<!-- SlimScroll -->
+	<script
+		th:src="@{/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+	<!-- FastClick -->
+	<script th:src="@{/bower_components/fastclick/lib/fastclick.js}"></script>
+
+	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+	<!-- Optionally, you can add Slimscroll and FastClick plugins.
+     Both of these plugins are recommended to enhance the
+     user experience. -->
+	<script type="text/javascript" th:inline="javascript">
+$(function () {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader(header, token);
+	});
+	
+	var unprocessed=[[#{order.manage.unprocessed}]];
+	var confirmed=[[#{order.manage.confirmed}]];
+	var dispatched=[[#{order.manage.dispatched}]];
+	var finished=[[#{order.manage.finished}]];
+	var closed=[[#{order.manage.closed}]];
+	var operation=			[[#{common.operation}]];
+	var detail=			[[#{order.manage.detail}]];
+	
+	
+
+	var orderConfim=[[#{order.manage.btn.confirm}]];
+	var orderDispatch=[[#{order.manage.btn.dispatche}]];
+	var orderFinish=[[#{order.manage.btn.finished}]];
+	var orderClose=[[#{order.manage.btn.closed}]];
+
+	
+  var context=[[@{/}]].replace("\\","");
+   var table= $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': true,
+      'searching'   : true,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : true,
+      "ajax": context+"stOrder/getAll",
+      "columns": [
+          { "data": "orderNumber" },
+          { "data": "price" },
+          { "data": "name" },
+          { "data": "phone" },
+          { "data": "createdTime" },
+          { "data": "status" },
+
+
+      ],
+      "columnDefs": [ {
+    	    "targets": 6,
+    	    "data": "id",
+    	    "render": function (data,type,row) {
+    	    	var status=	row["status"];
+    	    	var st;
+    	    	switch(status){
+      	    	case 1: 	    	
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderConfim+'</button>';    	    		
+      	    		break;
+      	    	case 2:
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderDispatch+'</button>';      	    	
+      	    		break;
+      	    	case 3: 
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderFinish+'</button>'; 
+      	    		break;
+      	    	case 4:
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderClose+'</button>';     	    	
+      	    		break;
+      	    	case 5:
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> ';     	    	
+      	    		break;
+      	    	
+      	    	}
+    	      return st;
+    	    }
+    	  } ,
+      {
+  	    "targets": 5,
+  	    "data": "status",
+  	    "render": function (data) {
+  	    	var st;
+  	    	switch(data){
+  	    	case 1: 	    	
+  	    		st='<small class="label label-danger"><i class="fa fa-clock-o"></i> '+unprocessed+'</small>';
+  	    		break;
+  	    	case 2:
+  	    		st='<small class="label label-primary"><i class="fa fa-clock-o"></i> '+confirmed+'</small>';
+  	    	
+  	    		break;
+  	    	case 3: 
+  	    		st='<small class="label label-info"><i class="fa fa-clock-o"></i> '+dispatched+'</small>';
+  	 
+  	    		break;
+  	    	case 4:
+  	    		st='<small class="label label-success"><i class="fa fa-clock-o"></i> '+finished+'</small>';
+  	    	
+  	    		break;
+  	    	case 5:
+  	    		st='<small class="label label-default"><i class="fa fa-clock-o"></i> '+closed+'</small>';
+  	  	    	
+  	    		break;
+
+  	    	}
+  	      return st;
+  	    }
+  	  },
+  	 {
+    	    "targets": 1,
+    	    "data": "price",
+    	    "render": function (data) {
+    	    	
+    	      return '¥'+(data/100).toFixed(2);
+    	    }
+    	  } 
+      ]
+    });
+    
+    $('#example2 tbody').on( 'click', 'button', function () {
+        var row= table.row( $(this).parents('tr') );
+  	  	var data=	row.data();
+  		data["status"]=(data["status"]+1);
+  		$.ajax({
+  		   	   url:  context+"stOrder/update",
+ 			   type: 'post',
+ 			   contentType: "application/json",
+ 			   async: false,
+ 			   data:JSON.stringify(data),
+ 			   dataType:"json",
+ 			   success: function (result) {
+ 				   if(result.code==200){
+ 				   	row.data(data).draw();					   
+ 				   }else{
+ 					   data["status"]=data["status"]-1;
+ 					   alert(result.msg);
+ 				   }
+ 			 	},
+ 			   error:function(error,error1,error2){								  							 		
+ 			   	alert("error:"+ error);
+ 			   }
+  	});
+  	  	     
+    } );
+  })
+
+</script>
+</body>
+</html>

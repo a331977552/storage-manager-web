@@ -69,7 +69,8 @@ desired effect
 									hidden="true" th:value="${setting.id}">
 								<div class="box-body">
 									<div class="form-group">
-										<label for="inputEmail3" class="col-sm-2 control-label"  th:text="#{profile.form.companyName}">公司名称</label>
+										<label for="inputEmail3" class="col-sm-2 control-label"
+											th:text="#{profile.form.companyName}">公司名称</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="companyname"
@@ -78,7 +79,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label"  th:text="#{profile.form.companyAddress}">公司地址</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.companyAddress}">公司地址</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="companyaddress"
@@ -87,8 +89,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.postCode}">Post
-											Code</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.postCode}">Post Code</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="postcode"
@@ -97,7 +99,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.phone}">电话</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.phone}">电话</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="phone"
@@ -106,7 +109,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.personalName}">个人名字</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.personalName}">个人名字</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="name"
@@ -115,7 +119,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.businessHour}">营业时间</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.businessHour}">营业时间</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="businesshours"
@@ -124,7 +129,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.description}">描述</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.description}">描述</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="description"
@@ -133,8 +139,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label" th:text="#{profile.form.alipayURL}">支付宝
-											二维码地址</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.alipayURL}">支付宝 二维码地址</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="apliPayUrl"
@@ -143,8 +149,8 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label"  th:text="#{profile.form.wechatPayUrl}">微信
-											二维码地址</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.wechatPayUrl}">微信 二维码地址</label>
 
 										<div class="col-sm-10">
 											<input type="text" class="form-control" name="wxPayUrl"
@@ -153,8 +159,18 @@ desired effect
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label"   th:text="#{profile.form.currencyRate}">汇率
-										</label>
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.personalWechatPayUrl}">个人微信二维码地址</label>
+
+										<div class="col-sm-10">
+											<input type="text" class="form-control" name="managerWeChatUrl"
+												th:value="${setting!=null}?${setting.managerWeChatUrl}"
+												placeholder="Manager WeChat Url">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label"
+											th:text="#{profile.form.currencyRate}">汇率 </label>
 
 										<div class="col-sm-10">
 											<input step="0.01" type="number" class="form-control"
@@ -163,12 +179,53 @@ desired effect
 												placeholder="汇率">
 										</div>
 									</div>
+
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label">vat-1
+										</label>
+
+										<div class="col-sm-10">
+											<input th:if="vats!=null" name="vats[0].id" hidden=""
+												th:value="${vats!=null}?${vats[0].id}"> <input
+												step="0.01" type="number" class="form-control"
+												name="vats[0].rate"
+												th:value="${vats!=null}?${vats[0].rate}:'0'"
+												placeholder="vat-1">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label">vat-2
+										</label>
+
+										<div class="col-sm-10">
+											<input th:if="vats!=null" name="vats[1].id" hidden=""
+												th:value="${vats!=null}?${vats[1].id}"> <input
+												step="0.01" type="number" class="form-control"
+												name="vats[1].rate"
+												th:value="${vats!=null}?${vats[1].rate}:'12.5'"
+												placeholder="vat-2">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputPassword3" class="col-sm-2 control-label">vat-3
+										</label>
+
+										<div class="col-sm-10">
+											<input  th:if="vats!=null" name="vats[2].id" hidden=""
+												th:value="${vats!=null}?${vats[2].id}"> <input
+												step="0.01" type="number" class="form-control"
+												name="vats[2].rate"
+												th:value="${vats!=null}?${vats[2].rate}:'20'"
+												placeholder="vat-3">
+										</div>
+									</div>
 								</div>
+
 								<!-- /.box-body -->
 								<div class="box-footer">
 									<p th:if="${param.error!=null}" th:text="${param.error}"></p>
-									<button type="submit" class="btn btn-info pull-right" th:text="#{common.confirm}">确定
-									</button>
+									<button type="submit" class="btn btn-info pull-right"
+										th:text="#{common.confirm}">确定</button>
 								</div>
 								<!-- /.box-footer -->
 							</form>
@@ -185,7 +242,7 @@ desired effect
 
 		<div th:replace="footer.html"></div>
 
-	
+
 
 	</div>
 	<!-- ./wrapper -->
@@ -199,9 +256,9 @@ desired effect
 		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
-		<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
 	<script>
-	
+		
 	</script>
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
