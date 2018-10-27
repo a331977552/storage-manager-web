@@ -17,8 +17,8 @@ import com.storage.entity.Advertisement;
 import com.storage.entity.Carousel;
 import com.storage.entity.Category;
 import com.storage.entity.Customer;
+import com.storage.entity.Setting;
 import com.storage.entity.Vat;
-import com.storage.entity.custom.CustomProduct;
 import com.storage.entity.custom.MyManager;
 import com.storage.entity.custom.OrderWrap;
 import com.storage.entity.custom.StorageResult;
@@ -85,7 +85,7 @@ public class HomeController {
 		
 		List<Advertisement> findAdvertisementByPosition = adService.findAdvertisementByPosition(1);
 		if(!findAdvertisementByPosition.isEmpty()) {
-			model.addObject("topAd", allCarousel.getResult().get(0));	
+			model.addObject("topAd", findAdvertisementByPosition.get(0));	
 		}else {
 			Advertisement ad=new Advertisement();
 			ad.setMessage("");
@@ -96,7 +96,7 @@ public class HomeController {
 	
 		List<Advertisement> findAdvertisementByPosition2 = adService.findAdvertisementByPosition(2);
 		if(!findAdvertisementByPosition2.isEmpty()) {
-			model.addObject("leftAd", allCarousel.getResult().get(0));
+			model.addObject("leftAd", findAdvertisementByPosition2.get(0));
 			
 		}else {
 			Advertisement ad=new Advertisement();
@@ -154,9 +154,12 @@ public class HomeController {
 
 	@RequestMapping({"/order"})
 	public ModelAndView order(ModelAndView model){
+		Setting result = settingService.getSetting().getResult();
+		
 		ResponseEntity<String> categoryByExample = this.categoryService.findAll();
 		StorageResult<List<Category>> jsonToObject = JsonUtils.jsonToObject(categoryByExample.getBody(), new TypeReference<StorageResult<List<Category>>>() {
 		} );
+		model.addObject("currencySymbol",result.getCurrencyDisplay()==1?"£":"¥");
 		model.addObject("categories",jsonToObject);
 		model.setViewName("order");
 		return model;
@@ -164,17 +167,13 @@ public class HomeController {
 	@RequestMapping({"/orderDetail/{orderId}"})
 	public ModelAndView orderDetail(@PathVariable Integer orderId, ModelAndView model){
 		OrderWrap wrap = orderService.getInfoFromOrder(orderId);
+		Setting result = settingService.getSetting().getResult();
 		if(wrap.getCode()==500) {			
 			model.setViewName("error?error="+wrap.getMsg());
 			return model;
 		}
-		Float currencyRate = settingService.getSetting().getResult().getCurrencyRate();
-		wrap.setTotalPrice(wrap.getTotalPrice()*currencyRate);
-		List<CustomProduct> list = wrap.getList();
-		for (CustomProduct customProduct : list) {
-			customProduct.setSubtotal(customProduct.getSubtotal()*currencyRate);
-			customProduct.getProduct().setSellingprice((int) (customProduct.getProduct().getSellingprice()*currencyRate));
-		}
+		
+		model.addObject("setting",result);
 		model.addObject("order",wrap);
 		model.addObject("customer",wrap.getCustomer());
 		model.setViewName("orderDetail");
@@ -203,7 +202,7 @@ public class HomeController {
 				customProduct.getProduct().setSellingprice((int) (customProduct.getProduct().getSellingprice()*currencyRate));
 			}*/
 			/*model.addObject("order",wrap);*/
-			model.addObject("customer",123);
+			
 			model.setViewName("redirect:/orderDetail/"+wrap.getOrder().getId());
 		}else {
 			if(jsonToObject.isSuccess()) {
@@ -224,7 +223,7 @@ public class HomeController {
 
 	@RequestMapping("/setting")
 	public ModelAndView setting(ModelAndView model){
-		StorageResult settingById = (StorageResult) this.settingService.getSetting(0);
+		StorageResult settingById = (StorageResult) this.settingService.getSetting();
 		if(settingById.getResult()!=null) {
 			model.addObject("setting",settingById.getResult());
 		}

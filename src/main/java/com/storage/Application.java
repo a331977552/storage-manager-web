@@ -31,7 +31,6 @@ public class Application  implements WebMvcConfigurer{
 		return new ReminderIntercepter();
 	}
 	public static void main(String[] args) {
-		
 		SpringApplication.run(Application.class, args);
 	}
 	

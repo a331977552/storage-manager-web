@@ -321,6 +321,7 @@ desired effect
 	var msg=[[${param.msg}]];
 		alert(msg);
 	}
+	var currencySymbol=[[${currencySymbol}]];
 	function load(currentPage){
 		
 		$("#div_loading").removeClass("hidden");
@@ -513,7 +514,7 @@ desired effect
 				alert("这个商品没库存了!");
 					return;
 			}
-			var price=result.sellingprice;
+			var price=result.sellingprice_aftertax;
 			var name=result.name;
  			var item=$("#tbody tr[data-id="+id+"]");	
  			var size=item.length;
@@ -523,20 +524,20 @@ desired effect
  				if(_quantity>quantity){
  					return ;
  				}
- 				var totalPrice=_quantity*parseInt(price)/100;				 				
+ 				var totalPrice=_quantity*price;				 				
  				item.eq(0).children().eq(3).children().eq(1).text(_quantity+"");
- 				item.eq(0).children().eq(4).text("¥"+totalPrice);					 				
+ 				item.eq(0).children().eq(4).text(currencySymbol+totalPrice.toFixed(2));					 				
  			}else{																
 				var html="<tr data-id="+id+" data-quantity="+quantity+">";		
 				html+='<td><input type="checkbox" /></td>';
 				html+="<td>"+name+"</td>";
-				html+="<td>¥"+(price/100)+"</td>";
+				html+="<td>"+currencySymbol+(price)+"</td>";
 				html+="<td>";
 				html+="<a class=\"btn btn-link\" data-price="+price+" data-ref=\"minus\" data-id="+id+"  >-</a>";
 				html+="<strong>1</strong>";
 				html+="<a class=\"btn btn-link\" data-quantity="+quantity+" data-price="+price+" data-ref=\"plus\" data-id="+id+"   >+</a>";
 				html+="</td>"
-				html+="<td>¥"+(price/100)+"</td>";
+				html+="<td>"+currencySymbol+(price)+"</td>";
 				html+="<td width=10%><a class='btn-link' data-ref='delete' href='#' data-id="+id+">delete</a></td>";
 				html+="</tr>";	
 				$("#tbody").append(html);						
@@ -562,12 +563,12 @@ desired effect
 					var id=$(this).data("id");
 					var item=$("#tbody tr[data-id="+id+"]");							
 					var qu=item.eq(0).children().eq(3).children().eq(1);
-	 				var quantity=parseInt(qu.text())-1;
+	 				var quantity=parseFloat(qu.text())-1;
 	 				if(quantity<=0)
 	 					quantity=1;
-	 				var totalPrice=quantity*parseInt($(this).data("price"))/100;				 				
+	 				var totalPrice=quantity*parseFloat($(this).data("price"));				 				
 	 				item.eq(0).children().eq(3).children().eq(1).text(quantity+"");
-	 				item.eq(0).children().eq(4).text("¥"+totalPrice);		
+	 				item.eq(0).children().eq(4).text(currencySymbol+totalPrice.toFixed(2));		
 					updatePrice();
 				});	
 				$("#tbody tr td a[data-ref='plus']").unbind("click");
@@ -576,13 +577,13 @@ desired effect
 					var dataQuantity=$(this).data("quantity");					
 					var item=$("#tbody tr[data-id="+id+"]");						
 					var qu=item.eq(0).children().eq(3).children().eq(1);
-	 				var quantity=parseInt(qu.text())+1;
+	 				var quantity=parseFloat(qu.text())+1;
 	 				if(quantity>dataQuantity){
 	 					quantity=dataQuantity;
 	 				}
-	 				var totalPrice=quantity*parseInt($(this).data("price"))/100;				 				
+	 				var totalPrice=quantity*parseFloat($(this).data("price"));				 				
 	 				item.eq(0).children().eq(3).children().eq(1).text(quantity+"");
-	 				item.eq(0).children().eq(4).text("¥"+totalPrice);
+	 				item.eq(0).children().eq(4).text(currencySymbol+totalPrice.toFixed(2));
 	 				updatePrice();
 				});					
  			}
@@ -671,7 +672,7 @@ desired effect
 				}
 			});
 			var nameOfTotalPrice=[[#{order.table.totalPrice}]];
-			$("#h3_totalPrice").text(nameOfTotalPrice+": ¥"+(totalPrice.toFixed(2)));
+			$("#h3_totalPrice").text(nameOfTotalPrice+":"+currencySymbol+(totalPrice.toFixed(2)));
 			
 			
 			

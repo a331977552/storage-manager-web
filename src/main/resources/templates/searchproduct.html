@@ -279,7 +279,7 @@ desired effect
 					 html+="<a href='"+context+content.id+"'>	<img   class='img-responsive' width='100%'  src="+content.imgUrl+" ></a>";
 					 html+="			<div class='caption'>";
 					 html+="			<h4>"+content.name+"</h4>";
-					 html+="			<h4 style='color:red'>¥"+(content.sellingprice/100)+"</h4>";
+					 html+="			<h4 style='color:red'>"+content.moneyDisplayed+"</h4>";
 					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 1;  \">"+content.title+"</p>";
 					 html+="			<p class=\"text-right\" style='"+(content.quantity<content.product_warning_quantity?'color:red':'')+"'>"+stockName+" "+content.quantity+"</p>";
 					 html+="		</div> ";

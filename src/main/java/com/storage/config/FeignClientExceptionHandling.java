@@ -7,11 +7,11 @@ public class FeignClientExceptionHandling implements ErrorDecoder {
 
 	@Override
 	public Exception decode(String methodKey, Response response) {
-		System.out.println(methodKey);
-		System.out.println(response.status());
-		
+//		
+//		HttpServletRequest
+//		HttpServletResponse
+//		ContextConfig
 		Default default1 = new ErrorDecoder.Default();
-		
 		return default1.decode(methodKey, response);
 	}
 

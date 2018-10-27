@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.storage.entity.StOrder;
+import com.storage.entity.custom.OrderStatis;
 import com.storage.entity.custom.OrderTableItem;
 import com.storage.entity.custom.OrderWrap;
 import com.storage.entity.custom.StorageResult;
@@ -32,5 +33,8 @@ public interface StOrderRemoteService {
 	ResponseEntity<String> findAll();
 	@RequestMapping("/stOrder/getInfoFromOrder/{id}")	
 	OrderWrap getInfoFromOrder(@PathVariable(name = "id") Integer orderId);
+	
+	@RequestMapping("/stOrder/getStatistics")	
+	OrderStatis getStatistics();
 
 }

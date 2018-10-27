@@ -57,25 +57,37 @@ desired effect
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>
+				<h1  th:text="#{left.title.order.manage}">
 					订单 <small>管理</small>
 				</h1>
 				<ol class="breadcrumb">
 					<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
-					<li class="active">order management</li>
+					<li class="active" th:text="#{left.title.order.manage}">order management</li>
 				</ol>
 			</section>
 
 			<!-- Main content -->
 			<section class="content container-fluid">
-
+				<div id="orderStatistic">
+				<div class="alert alert-warning ">
+              	<div class="row">
+              		<div class="col-md-4 col-sm-4" id="orderTotal"></div>
+              		<div class="col-md-4 col-sm-4" id="orderconfirm"></div>
+              		<div class="col-md-4 col-sm-4" id="orderfinished"></div>
+              		<div class="col-md-4 col-sm-4" id="orderdispatch"></div>
+              		<div class="col-md-4 col-sm-4" id="orderfinishing"></div>
+              		<div class="col-md-4 col-sm-4" id="orderclose"></div>
+              	</div>
+              </div>
+					</div>
 				<!--------------------------
         | Your Page Content Here |
         -------------------------->
 				<div class="box">
 					<div class="box-header">
-						<h3 class="box-title">Order management</h3>
+						<h3 class="box-title"  th:text="#{left.title.order.manage}">Order management</h3>
 					</div>
+				
 					<!-- /.box-header -->
 					<div class="box-body">
 						<table id="example2" class="table table-bordered table-striped">
@@ -147,13 +159,7 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. -->
 	<script type="text/javascript" th:inline="javascript">
-$(function () {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	$(document).ajaxSend(function(e, xhr, options) {
-	    xhr.setRequestHeader(header, token);
-	});
-	
+	$("#orderStatistic").hide();
 	var unprocessed=[[#{order.manage.unprocessed}]];
 	var confirmed=[[#{order.manage.confirmed}]];
 	var dispatched=[[#{order.manage.dispatched}]];
@@ -168,9 +174,24 @@ $(function () {
 	var orderDispatch=[[#{order.manage.btn.dispatche}]];
 	var orderFinish=[[#{order.manage.btn.finished}]];
 	var orderClose=[[#{order.manage.btn.closed}]];
+	
+	$(function () {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader(header, token);
+	});
+	
+
 
 	
   var context=[[@{/}]].replace("\\","");
+  
+  
+	  
+	  getOrderStatis();
+	  
+  
    var table= $('#example2').DataTable({
       'paging'      : true,
       'lengthChange': true,
@@ -181,13 +202,11 @@ $(function () {
       "ajax": context+"stOrder/getAll",
       "columns": [
           { "data": "orderNumber" },
-          { "data": "price" },
+          { "data": "priceDisplayed" },
           { "data": "name" },
           { "data": "phone" },
           { "data": "createdTime" },
           { "data": "status" },
-
-
       ],
       "columnDefs": [ {
     	    "targets": 6,
@@ -246,14 +265,7 @@ $(function () {
   	      return st;
   	    }
   	  },
-  	 {
-    	    "targets": 1,
-    	    "data": "price",
-    	    "render": function (data) {
-    	    	
-    	      return '¥'+(data/100).toFixed(2);
-    	    }
-    	  } 
+
       ]
     });
     
@@ -270,6 +282,7 @@ $(function () {
  			   dataType:"json",
  			   success: function (result) {
  				   if(result.code==200){
+ 					getOrderStatis();
  				   	row.data(data).draw();					   
  				   }else{
  					   data["status"]=data["status"]-1;
@@ -283,6 +296,28 @@ $(function () {
   	  	     
     } );
   })
+  
+  function getOrderStatis(){
+	 var context=[[@{/}]].replace("\\","");
+	$.ajax({
+	   	   url:  context+"stOrder/getStatistics",
+		   type: 'get',		  
+		   success: function (result) {
+     			$("#orderStatistic").show();
+			   $("#orderTotal").text("订单总数:"+result.totalNumber);
+			   $("#orderconfirm").text("待确定:"+result.unprocessed);
+			   $("#orderfinished").text("已完成:"+result.closed);
+			   $("#orderdispatch").text("待配送:"+result.confirmed);
+			   $("#orderfinishing").text("待完成:"+result.dispatched);
+			   $("#orderclose").text("待关闭:"+result.finished);
+	
+		 	},
+		   error:function(error,error1,error2){								  							 		
+		   	alert("error: fail to get order statistics");
+		   }
+});
+ 	     
+}
 
 </script>
 </body>

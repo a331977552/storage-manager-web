@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.storage.entity.Setting;
 import com.storage.entity.StOrder;
 import com.storage.entity.custom.OrderTableItem;
 import com.storage.entity.custom.StorageResult;
@@ -65,24 +64,20 @@ public class StOrderController {
 	public Object count() {
 		return this.service.count();
 	}
+	@GetMapping("/getStatistics")
+	public Object getStatistics() {
+		return this.service.getStatistics();
+	}
 	@GetMapping("/getAll")
 	public Object getAll() {
-		StorageResult<Setting> setting = settingService.getSetting();
-		if(!setting.isSuccess()) {
-			log.info("error cannot find setting in path /order/getAll");
-			return "{\"data\":[]}";
-		}
+	
 		ResponseEntity<String> findAll = this.service.findAll();
 		if(findAll.getStatusCodeValue()==200) {
 			StorageResult<List<OrderTableItem>> jsonToObject = JsonUtils.jsonToObject(findAll.getBody(),new TypeReference<StorageResult<List<OrderTableItem>>>() {
 			});			
 			if(jsonToObject.isSuccess()) {
 				List<OrderTableItem> result = jsonToObject.getResult();
-				Float currencyRate = setting.getResult().getCurrencyRate();
-				for (OrderTableItem orderTableItem : result) {
 				
-					orderTableItem.setPrice((int)(orderTableItem.getPrice()*currencyRate));
-				}
 				String objectToJson = JsonUtils.objectToJson(result,new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"));			
 				return "{\"data\":"+objectToJson+"}";				
 			}

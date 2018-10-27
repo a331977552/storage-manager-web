@@ -3,6 +3,7 @@ package com.storage.remote.service;
 import java.util.List;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public interface AdvertisementServiceRemote {
 	public Advertisement addAdvertisement(@RequestBody Advertisement ad);
 
 	@RequestMapping("/ad/update")
-	public void updateAdvertisement(@RequestBody Advertisement ad);
+	public ResponseEntity<String> updateAdvertisement(@RequestBody Advertisement ad);
 
 	@RequestMapping("/ad/delete")
 	public void deleteAdvertisement(@RequestBody Advertisement ad);

@@ -263,7 +263,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<!-- /.box-header -->
 							<!-- form start -->
 							<form id="topAdForm" class="form-horizontal" role="form" action="#" method="post"
-								enctype="multipart/form-data">
+								>
 								<input th:if="${topAd!=null}" type="text" hidden="true"
 									name="id" th:value="${topAd.id}"> <input type="text"
 									hidden="true" name="position" value="1">
@@ -272,7 +272,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										<label for="inputEmail3" class="col-sm-2 control-label">message</label>
 
 										<div class="col-sm-10">
-											<input type="text" name="msg" class="form-control"
+											<input type="text" name="message" class="form-control"
 												th:value="${topAd}!=null?${topAd.message}" placeholder="Message">
 										</div>
 
@@ -281,7 +281,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
 
-		<button type="submit" id="btn_updateTop"
+		<button type="button" id="btn_updateTop"
 										class="btn btn-info pull-right">update Ad</button>
 								</div>
 								<!-- /.box-body -->
@@ -304,7 +304,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<!-- /.box-header -->
 							<!-- form start -->
 							<form id="leftAdForm" class="form-horizontal" role="form" action="#" method="post"
-								enctype="multipart/form-data">
+								>
 								<input th:if="${leftAd!=null}" type="text" hidden="true"
 									name="id" th:value="${leftAd.id}"> <input type="text"
 									hidden="true" name="position" value="2">
@@ -334,7 +334,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									</div>
 
 
-	<button type="submit" id="btn_updateLeft"
+	<button type="button" id="btn_updateLeft"
 										class="btn btn-info pull-right">update Ad</button>
 							
 
@@ -460,7 +460,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							   contentType: false,
 							   processData: false,						
 							   success: function (result) {
-								
+								alert("修改成功");   
 							   }
 				  	});
 				  
@@ -479,6 +479,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						   contentType: false,
 						   processData: false,						
 						   success: function (result) {
+							
 							alert("修改成功");   
 						   }
 			  			});
