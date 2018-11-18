@@ -191,7 +191,7 @@ desired effect
 	  
 	  getOrderStatis();
 	  
-  
+	var col1=  [ 5, "desc" ];
    var table= $('#example2').DataTable({
       'paging'      : true,
       'lengthChange': true,
@@ -199,6 +199,7 @@ desired effect
       'ordering'    : true,
       'info'        : true,
       'autoWidth'   : true,
+      "order": [col1],
       "ajax": context+"stOrder/getAll",
       "columns": [
           { "data": "orderNumber" },
@@ -216,13 +217,13 @@ desired effect
     	    	var st;
     	    	switch(status){
       	    	case 1: 	    	
-      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderConfim+'</button>';    	    		
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderConfim+'</button>&nbsp;<input type="submit" value="取消" class="btn btn-sm btn-warning">';    	    		
       	    		break;
       	    	case 2:
-      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderDispatch+'</button>';      	    	
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderDispatch+'</button>&nbsp;<input  value="取消" type="submit" class="btn btn-sm btn-warning">';      	    	
       	    		break;
       	    	case 3: 
-      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderFinish+'</button>'; 
+      	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderFinish+'</button>&nbsp;<input  value="取消" type="submit" class="btn btn-sm btn-warning">'; 
       	    		break;
       	    	case 4:
       	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> <button class="btn btn-sm btn-primary">'+orderClose+'</button>';     	    	
@@ -230,7 +231,10 @@ desired effect
       	    	case 5:
       	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> ';     	    	
       	    		break;
-      	    	
+      	   		case 6:
+  	    		st='<a class="btn btn-sm btn-info" href='+context+"orderDetail/"+data+'>'+detail+'</a> ';     	    	
+  	    		break;
+  	    	
       	    	}
     	      return st;
     	    }
@@ -258,6 +262,10 @@ desired effect
   	    		break;
   	    	case 5:
   	    		st='<small class="label label-default"><i class="fa fa-clock-o"></i> '+closed+'</small>';
+  	  	    	
+  	    		break;
+  	    	case 6:
+  	    		st='<small class="label label-default"><i class="fa fa-clock-o"></i> canceled</small>';
   	  	    	
   	    		break;
 
@@ -293,6 +301,33 @@ desired effect
  			   	alert("error:"+ error);
  			   }
   	});
+  	  	     
+    } );
+    
+    //cancel
+    $('#example2 tbody').on( 'click', 'input', function () {
+        var row= table.row( $(this).parents('tr') );
+  	  	var data=	row.data();
+  		data["status"]=6;
+		$.ajax({
+		   	   url:  context+"stOrder/cancel",
+			   type: 'post',
+			   contentType: "application/json",
+			   async: false,
+			   data:JSON.stringify(data),
+			   dataType:"json",
+			   success: function (result) {
+				   if(result.code==200){
+					getOrderStatis();
+				   	row.data(data).draw();					   
+				   }else{
+					   alert(result.msg);
+				   }
+			 	},
+			   error:function(error,error1,error2){								  							 		
+			   	alert("error:"+ error);
+			   }
+	});
   	  	     
     } );
   })

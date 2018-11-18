@@ -8,6 +8,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta charset="utf8">
 <title>Storage System</title>
 <title th:replace="header_link.html"></title>
 </head>
@@ -162,6 +163,16 @@ desired effect
 										<p class="help-block hidden">selling price cannot be 0 or
 											negative</p>
 									</div>
+										<div class="form-group">
+										<label for="sellingprice"><i
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.sellingprice_old}+'(£)'"></span></label> <input
+											type="number" name="product.sellingprice_old_"
+											class="form-control" id="sellingprice_old" th:value="${product.sellingprice_old}"
+											placeholder="打折前的价格" value="0">
+										<p class="help-block hidden">selling price cannot be 0 or
+											negative</p>
+									</div>
+									
 									<div class="form-group">
 										<label for="buyingprice"><i
 											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.buyingprice}">buying price</span></label> <input
@@ -200,20 +211,27 @@ desired effect
 										</select>
 					
 									</div>
+										<div class="form-group">
+										<label for="title"><i
+											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.promotion_title}"></span></label> <input
+											type="text" name="product.promotionTitle" class="form-control" th:value="${product.promotionTitle}"
+											id="productTitle" placeholder="原价2磅,现价1.5磅/半价/买二增一">
+										<p class="help-block hidden" th:text="#{validation.addproduction.productTitle}">product title cannot be empty</p>
+									</div>
 									<div class="form-group">
 										<label for="title"><i
-											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.title}">title</span></label> <input
-											type="text" name="product.title" 
-											class="form-control" th:value="${product.title}" id="productTitle" placeholder="product title">
-										<p class="help-block hidden">product title cannot be empty</p>
+											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.offer}"></span></label> <input
+											type="text" name="product.offer" th:value="${product.offer}" class="form-control" maxlength="2"
+											 placeholder="新品/热卖/促销">
+									<div class="form-group">
+										<label for="title"><i
+											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.product_quantity_desc}"></span></label> <input
+											type="text" name="product.quantityDesc" class="form-control" th:value="${product.quantityDesc}" 
+											 placeholder="每公斤/每盒6个/100g">
 									</div>
-									<div class="form-group hidden">
-										<label for="sub title"><i
-											class="fa fa-times-circle-o hidden"></i>sub title</label> <input hidden="true"
-											type="text" name="product.subtitle" 
-											class="form-control"  th:value="${product.subtitle}" id="subtitle"  placeholder="product subtitle">
-										<p class="help-block hidden">subtitle cannot be empty</p>
-									</div>
+									
+									
+									
 									<img class="img-responsive"  th:src="${imgs[0].url}" />									
 									<div class="form-group">
 											<label for="exampleInputFile"><i

@@ -10,6 +10,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>Storage System</title>
 <title th:replace="header_link.html"></title>
+  <link rel="stylesheet" type="text/css"  th:href="@{/dist/css/newProductCard.css}">
+
 <style type="text/css">
 </style>
 <!-- <script th:src="@{/masonry.pkgd.min.js"></script> -->
@@ -161,8 +163,40 @@ desired effect
 						<div class="col-sm-4 col-xs-6 col-md-2 col-lg-2"></div>
 						<h3 th:text="${pageBean.msg}"></h3>
 					</div> -->
-
+				
 				</div>
+			<!-- 	<div class="row">
+					<div class="col-sm-4 col-xs-6 col-md-2 col-lg-2"
+							>
+							<div class="product-frame">
+								<span class="product-card-cart " style="margin-left: 1px;">热销</span>
+							<a href="" >
+							<img  src="http://manage.ttmart.co.uk:8080/5,3eeee6e644.jpg" 
+										class="product-img-wrap">
+										</a>
+								<hr style="margin: 0px; padding: 0px; margin-bottom: 5px;">							
+								<div >
+								<a href=""  ><span class='line-clamp'   ng-bind="product.name">油麦菜</span></a>			
+								<span  class='line-clamp-info'  >每公斤</span>
+											
+								<a href=""><span class='offer-info'>买二增一</span></a>
+											
+								<div class='price-frame'>
+								<span class="price-offer price">5.55$</span> 
+    							<span class="old-price">6.88$</span>
+								<span style="color: red; font-size: small; "    >没库存了</span>
+								
+								</div>			
+			
+							</div>
+						
+								
+								
+							</div>
+						</div>
+					
+				
+				</div> -->
 
 				<div class="row">
 
@@ -272,20 +306,54 @@ desired effect
 			        	context=context.replace("\\","");
 					 var html="";
 					  var stockName= [[#{search.product.stockName}]];
-					 $.each(result.result.beans,function(index, content){	
-					 html+="<div class='col-sm-4 col-xs-6 col-md-2 col-lg-2'>"; 
+					 $.each(result.result.beans,function(index, content){
+						 
+						 
+						html+=' <div class="col-sm-4 col-xs-6 col-md-2 col-lg-2"  style="margin-bottom:10px;"                                            ';
+						html+='		>                                                                                       ';
+						html+='		<div class="product-frame">                                                             ';
+						html+='			<span class="product-card-cart" style="margin-left: 1px; padding-left:2px;">'+(content.offer==null?"":content.offer)+'</span>               ';
+						html+='		<a href="'+context+content.id+'" >                                                                            ';
+						html+='		<img  src="'+content.imgUrl+'"                            ';
+						html+='					class="product-img-wrap">                                                   ';
+						html+='					</a>                                                                        ';
+						html+='			<hr style="margin: 0px; padding: 0px; margin-bottom: 5px;">							';
+						html+='			<div >                                                                              ';
+						html+='			<a href="'+context+content.id+'"  ><span class="line-clamp" >'+content.name+'</span></a>	    ';		
+						html+='			<span  class="line-clamp-info"  >'+(content.quantityDesc==null?"&nbsp;":content.quantityDesc)+'</span>                                       ';
+						html+='						                                                                        ';
+						html+='			<a href="'+context+content.id+'"><span class="offer-info">'+(content.promotionTitle==null?"&nbsp;":content.promotionTitle)+'</span></a>                               ';
+						html+='						                                                                        ';
+						html+='			<div class="price-frame">                                                           ';
+						html+='			<span class="price-offer price">'+content.moneyDisplayed+'</span>                                        ';
+	    				html+='			<span class="old-price">'+(content.oldMoneyDisplayed==null?"":content.oldMoneyDisplayed)+'</span>                                                ';
+						html+='			<span style="color: '+(content.quantity<content.product_warning_quantity?'red':'')+'; font-size: small; "    >'+stockName+" "+content.quantity+'</span>                      ';
+						html+='			                                                                                    ';
+						html+='			</div>			                                                                    ';
+				        html+='                                                                                             ';
+						html+='		</div>                                                                                  ';
+						html+='	                                                                                            ';
+						html+='			                                                                                    ';
+						html+='			                                                                                    ';
+						html+='		</div>                                                                                  ';
+						html+='	</div>                                                                                      ';
+							 
+						 
+					 
+	/* 				 html+="<div class='col-sm-4 col-xs-6 col-md-2 col-lg-2'>"; 
 
 					 html+="<div class='thumbnail'>";
 					 html+="<a href='"+context+content.id+"'>	<img   class='img-responsive' width='100%'  src="+content.imgUrl+" ></a>";
 					 html+="			<div class='caption'>";
 					 html+="			<h4>"+content.name+"</h4>";
 					 html+="			<h4 style='color:red'>"+content.moneyDisplayed+"</h4>";
-					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 1;  \">"+content.title+"</p>";
+					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 1;  \">"+(content.promotionTitle==null?"":content.promotionTitle)+"</p>";
+					 html+="			<p style=\"word-break:break-all; text-overflow: ellipsis; display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden; -webkit-line-clamp: 1;  \">"+(content.quantityDesc==null?"":content.quantityDesc)+"</p>";
 					 html+="			<p class=\"text-right\" style='"+(content.quantity<content.product_warning_quantity?'color:red':'')+"'>"+stockName+" "+content.quantity+"</p>";
 					 html+="		</div> ";
 					 html+="		</div>";
 					 html+="	 ";
-					 html+=" </div>";
+					 html+=" </div>"; */
 
 				 });
 					 

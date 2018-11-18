@@ -59,6 +59,13 @@ public class StOrderController {
 	
 		return this.service.updateStOrder(item);
 	}
+	@PostMapping(value="/cancel",
+			 consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE,MediaType.APPLICATION_JSON_VALUE}, 
+		        produces = {MediaType.APPLICATION_JSON_VALUE})	
+	public Object cancelStOrder(@RequestBody OrderTableItem item) {
+	
+		return this.service.updateStOrder(item);
+	}
 	
 	@GetMapping("/count")
 	public Object count() {

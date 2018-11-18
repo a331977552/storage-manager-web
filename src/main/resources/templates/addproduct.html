@@ -131,7 +131,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									</div>
 									<div class="form-group">
 										<label for="sellingprice"><i
-											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.sellingprice}"></span></label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.sellingprice}+'(£)'"></span></label> <input
 											type="number" name="product.sellingprice_"
 											class="form-control" id="sellingprice"
 											placeholder="selling price" value="0">
@@ -139,8 +139,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											negative</p>
 									</div>
 									<div class="form-group">
+										<label for="sellingprice"><i
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.sellingprice_old}+'(£)'"></span></label> <input
+											type="number" name="product.sellingprice_old_"
+											class="form-control" id="sellingprice_old"
+											placeholder="打折前的价格" value="0">
+										<p class="help-block hidden">selling price cannot be 0 or
+											negative</p>
+									</div>
+									<div class="form-group">
 										<label for="buyingprice"><i
-											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.buyingprice}"></span></label> <input
+											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.buyingprice}+'(£)'"></span></label> <input
 											type="number" name="product.buyingprice_" min="0"
 											class="form-control" id="buyingprice"
 											placeholder="buying price">
@@ -170,25 +179,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 											<option th:each="v,stat:${vat}" th:value="${v.rate}"
 												th:text="${v.rate}"></option>
-
 										</select>
 
 									</div>
 									<div class="form-group">
 										<label for="title"><i
-											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.title}"></span></label> <input
-											type="text" name="product.title" class="form-control"
-											id="productTitle" placeholder="product title">
+											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.promotion_title}"></span></label> <input
+											type="text" name="product.promotionTitle" class="form-control"
+											id="productTitle" placeholder="原价2磅,现价1.5磅/半价/买二增一">
 										<p class="help-block hidden" th:text="#{validation.addproduction.productTitle}">product title cannot be empty</p>
 									</div>
-									<div class="form-group  hidden">
+									<div class="form-group">
+										<label for="title"><i
+											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.offer}"></span></label> <input
+											type="text" name="product.offer" class="form-control" maxlength="2"
+											 placeholder="新品/热卖/促销">
+									<div class="form-group">
+										<label for="title"><i
+											class="fa fa-times-circle-o hidden" ></i><span th:text="#{description.addproduct.product_quantity_desc}"></span></label> <input
+											type="text" name="product.quantityDesc" class="form-control"
+											 placeholder="每公斤/每盒6个/100g">
+									</div>
+									
+									
+									<!-- <div class="form-group  hidden">
 										<label for="sub title"><i
 											class="fa fa-times-circle-o hidden"></i><span th:text="#{description.addproduct.subtitle}"></span></label> <input
 											type="text" name="product.subtitle" class="form-control" hidden="true"
 											
 											id="subtitle" placeholder="product subtitle">
 										<p class="help-block hidden">subtitle cannot be empty</p>
-									</div>
+									</div> -->
 
 
 									<div class="form-group">
