@@ -1,12 +1,16 @@
 package com.storage.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,14 +56,22 @@ public class CategoryController  {
 	public Object updateCategory(CustomeCategory category) {
 		Category category2=new Category();
 		category2.setId((int)category.getPk());
-		category2.setName(category.getValue());
+		category2.setText(category.getValue());
 		return this.service.updateCategory(category2);
+	}
+	@PostMapping("/updateAll")
+	public Object updateAllCategories(@RequestBody List<Category> categories) {
+		return this.service.updateAllCategory(categories).getBody();
 	}
 
 	@GetMapping("/count")
 	public Object count() {
 		return this.service.count();
 	}
-
+	@GetMapping("/findAll")
+	public Object findAll() {
+		ResponseEntity<String> findAll = this.service.findAll();
+		return findAll.getBody();
+	}
 
 }

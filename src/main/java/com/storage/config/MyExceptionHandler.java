@@ -1,21 +1,23 @@
 package com.storage.config;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadBase.SizeLimitExceededException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import com.storage.entity.custom.StorageResult;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
-@ControllerAdvice()
-public class MyExceptionHandler {
+@Component
+public class MyExceptionHandler extends AbstractHandlerExceptionResolver {
 
-	@ExceptionHandler(SizeLimitExceededException.class)
-	@ResponseBody
-	public StorageResult handleException(SizeLimitExceededException e) {
-		System.out.println("handleException");
-		return StorageResult.failed("file is too large, size cannot exceed 5MB");
+	
+	@Override
+	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
+			Exception ex) {
+		System.out.println("-------error:"+ex.getMessage());
+		
+		return null;
 	}
-
+	
 
 }

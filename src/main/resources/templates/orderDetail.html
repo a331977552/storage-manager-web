@@ -85,8 +85,8 @@ desired effect
       </h1>
       <ol class="breadcrumb">
         <li><a th:href="@{/}"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li><a th:href="@{/order}">Order</a></li>
-        <li class="active">Invoice</li>
+        <li><a th:href="@{/order}">订单</a></li>
+        <li class="active">详情</li>
       </ol>
     </section>
 
@@ -98,7 +98,7 @@ desired effect
         <div class="col-xs-12">
           <h2 class="page-header">
             <i class="fa fa-globe"></i> WareHourse Storage, Inc.
-            <small class="pull-right" th:text="'Date: '+${#dates.format(order.date,'yyyy-MM-dd HH:mm:ss')}">Date: 2/10/2014</small>
+            <small class="pull-right" th:text="#{common.date}+': '+${#dates.format(order.date,'yyyy-MM-dd HH:mm:ss')}">Date: 2/10/2014</small>
           </h2>
         </div>
         <!-- /.col -->
@@ -143,19 +143,20 @@ desired effect
           <table class="table table-striped">
             <thead>
             <tr>
-              <th>Qty</th>
-              <th>Product</th>
-              <th>Serial #</th>
-              <th>Description</th>
-              <th>Subtotal</th>
+            
+	   <th th:text="#{orderdetail.product.qty}">数量(Qty)</th>
+              <th th:text="#{orderdetail.product.name}">名称(Product)</th>
+              <th th:text="#{orderdetail.product.promotion}">促销详情(promotion detail)</th>
+              <th th:text="#{orderdetail.product.units}">单位(units)</th>
+              <th th:text="#{orderdetail.product.subtotal}">总价(Subtotal)</th>
             </tr>
             </thead>
             <tbody>         
             <tr th:each="product,state:${order.list}">
               <td th:text="${product.qty}">error</td>
                <td th:text="${product.product.name}">error</td>
-              <td th:text="${product.product.title}">error</td>
-              <td th:text="${product.product.title}">error</td>
+              <td th:text="${product.product.promotionTitle}">error</td>
+              <td th:text="${product.product.quantityDesc}">error</td>
               <td th:text="${product.subtotalDisplayed}">error</td>
             </tr>
             </tbody>
@@ -167,8 +168,8 @@ desired effect
 
       <div class="row">
         <!-- accepted payments column -->
-        <div class="col-xs-6">
-          <p class="lead">Payment Methods:</p>
+        <div class="col-xs-6">       
+          <p class="lead"  th:text="#{orderdetail.paymentname}">Payment Methods:</p>
           <img th:src="@{/dist/img/credit/visa.png}" alt="Visa">
           <img th:src="@{/dist/img/credit/mastercard.png}" alt="Mastercard">
           <img th:src="@{/dist/img/credit/american-express.png}" alt="American Express">
@@ -209,11 +210,11 @@ desired effect
       <!-- this row will not appear when printing -->
       <div class="row no-print">
         <div class="col-xs-12">
-          <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-          <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-          </button>
+          <a href="invoice-print.html" target="_blank" class="btn btn-default pull-right"><i class="fa fa-print"></i><span th:text=#{orderdetail.print}> Print</span></a>
+          <!-- <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
+          </button> -->
           <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-            <i class="fa fa-download"></i> Generate PDF
+            <i class="fa fa-download"></i> <span th:text="#{orderdetail.generatePDF}">Generate PDF</span>
           </button>
         </div>
       </div>

@@ -81,8 +81,7 @@ public class ProductController {
 			ProductDetail jsonToPojo = JsonUtils.jsonToPojo(body, ProductDetail.class);
 			model.addObject("product", jsonToPojo.getProduct());
 			model.addObject("imgs", jsonToPojo.getImgs());
-	
-			model.addObject("categories", jsonToPojo.getCategories());
+			model.addObject("category", jsonToPojo.getCategory());
 			model.addObject("vats", jsonToPojo.getVats());
 			model.setViewName("productdetails");
 

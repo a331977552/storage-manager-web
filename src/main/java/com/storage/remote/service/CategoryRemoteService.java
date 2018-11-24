@@ -1,5 +1,7 @@
 package com.storage.remote.service;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,8 @@ public interface CategoryRemoteService {
 	
 	@GetMapping("/category/findAll")
 	ResponseEntity<String> findAll();
+	@PostMapping("/category/updateAll")
+	ResponseEntity<String> updateAllCategory(@RequestBody List<Category> categories);
 	
 
 }

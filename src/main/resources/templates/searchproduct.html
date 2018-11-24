@@ -75,9 +75,9 @@ desired effect
 								<ul id="ul_dropdown" class="dropdown-menu">
 									<li><a href="#" data-index="-1">ALL</a></li>
 
-									<li th:if="${categories.code}==200"
-										th:each="category,stat:${categories.result}"><a href="#"
-										th:text="${category.name}" th:data-index="${category.id}">Another
+									<li 
+										th:each="category,stat:${categories}"><a href="#"
+										th:text="${category.text}" th:data-index="${category.id}">Another
 											action</a></li>
 
 								</ul>

@@ -11,6 +11,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <meta charset="utf8">
 <title>Storage System</title>
 <title th:replace="header_link.html"></title>
+<link th:href="@{/dist/css/jstree-theme/default/style.min.css}"
+	rel="stylesheet">
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -33,6 +35,38 @@ desired effect
 |---------------------------------------------------------|
 -->
 <body class="hold-transition skin-blue sidebar-mini">
+<div class="modal modal-default fade " id="modal-categoryChoose">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button> -->
+					<h4 class="modal-title">choose Category</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row" style="padding: 30px;">
+						<div class="form-inline">
+							<div class="form-group">
+								<label for="exampleInputName2">搜索:</label> <input type="text"
+									class="form-control" id="catSearch" placeholder="水果">
+							</div>
+						
+						</div>
+					</div>
+					<div class="row" style="padding: 30px;">
+						<div id="categoryTree"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" id="btn_category_confirm" >确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" >取消</button>
+					<!-- <button type="button" class="btn btn-primary">ok</button> -->
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
 <div class="modal modal-danger fade" id="modal-delete">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -192,15 +226,7 @@ desired effect
 											>
 										<p class="help-block hidden">supplier cannot be empty</p>
 									</div>
-									<div class="form-group">
-										<label><span th:text="#{description.addproduct.category}">category</span></label> <select name="product.category"
-											class="form-control">
-
-											<option th:each="category,stat:${categories}" th:selected="${category.id==product.category}"
-												th:value="${category.id}" th:text="${category.name}"></option>
-
-										</select>
-									</div>
+		
 
 									<div class="form-group">
 										<label for="vat">vat</label> 
@@ -229,7 +255,16 @@ desired effect
 											type="text" name="product.quantityDesc" class="form-control" th:value="${product.quantityDesc}" 
 											 placeholder="每公斤/每盒6个/100g">
 									</div>
-									
+									<div class="form-group">
+										<label><span
+											th:text="#{description.addproduct.category}"></span></label> 
+											<input 
+											name="product.category"  th:value="${product.category}"   id="categoryInputSubmit" type="hidden"/>
+											<input 
+											 id="categoryInput" type="text" placeholder="请选择一个类别" th:value="${category.text}" readonly class="form-control"/>
+											<p class="help-block hidden" >category cannot be empty</p>
+										
+									</div>
 									
 									
 									<img class="img-responsive"  th:src="${imgs[0].url}" />									
@@ -311,6 +346,10 @@ desired effect
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
 	<script th:src="@{/bower_components/ckeditor/ckeditor.js}"></script>
 		<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+		
+  <script th:src="@{/dist/js/sweetalert.min.js}"></script>
+  
+	<script th:src="@{/dist/js/jstree.min.js}"></script>
 	<script th:inline="javascript">
 	
 
@@ -388,7 +427,7 @@ desired effect
 			validate("sellingprice",true,0);
 			validate("buyingprice",true,0);
 			validate("quantity",true,-1);
-		
+			validate("categoryInput",false,0);
 			validate("barcode",false,0);
 		
 			function validateImg(obj){
@@ -413,7 +452,7 @@ desired effect
 				
 				
 				if((($(this).get(0).files[0].size).toFixed(2))>=(5*1024*1024)){
-					      alert("file size is too large, maximum 5MB");
+					      swal("file size is too large, maximum 5MB");
 					      $(this).val("");   
 			    }
 			      validateImg($(this));
@@ -463,7 +502,8 @@ desired effect
 				validation("quantity",true,-1);
 				validation("name",false,0);
 				validation("barcode",false,0);
-
+				validation("categoryInput",false,0);
+				
 				if(lastErrorObj!=null){
 					lastErrorObj.focus();
 				}else{
@@ -522,8 +562,113 @@ desired effect
 				
 			});
 			
+			
+			
+		$("#categoryInput").click(function (){
+				
+				$("#modal-categoryChoose").modal({
+					backdrop:"static",
+					keyboard:false
+				});		
+				
+			});
+			$("#btn_category_confirm").click(function (){
+				var arr=$("#categoryTree").jstree("get_selected",true);
+				if(arr.length==0)
+				{	
+					swal("必须要选择一个类别!");
+					return ;
+				}	
+
+				if(arr.length>1)
+				{	
+					swal("只能选择一个类别!");
+					return ;
+				}	
+
+				if(arr[0].id==-1)
+				{
+		
+					swal("不能选择root类别!");
+					return ;
+				}	
+				
+				$("#modal-categoryChoose").modal('hide');	
+				var text=arr[0].text;
+				$("#categoryInput").val(text);
+				var id=arr[0].id;				
+				$("#categoryInputSubmit").val(id);
+				validation("categoryInput",false,0);
+			});
+			
+			
+			loadTree(initilizeTree);
+			
 		});
+		function loadTree(callBack){
+			$.ajax({
+				url : '/category/findAll',
+				dataType : "json",
+				success : function(result) {
+					callBack(result,null);
+				},
+				error : function(error, error1, error2) {
+					swal("加载种类失败!, 请检查网络,或刷新页面")
+					callBack(null,error);
+				}
+			});
+			
+		}
 	
+		function initilizeTree(result,error=null){
+			var root={"id":-1,"parent":"#",text:"root"};
+			for (var i = 0; i < result.length; i++) {
+				if (result[i].parent == null) {
+					result[i].parent = -1;
+				}
+			}
+			result.push(root);
+			$('#categoryTree').jstree(
+					{
+						"core" : {
+							"check_callback" : true,
+							'data' : result,
+							'multiple': false,
+							/* 'themes' : {
+								'name' : 'proton',
+								'responsive' : true
+							}  */
+
+						},
+						'checkbox' : {            
+							 'deselect_all': true,
+							 'three_state' : false, 
+							},
+							
+						"plugins" : [ 
+								"search", "state", "checkbox"
+								 ]
+					});
+		
+			
+		    	
+		    var to = false;
+			$("#catSearch").keyup(
+					function() {
+						if (to) {
+							clearTimeout(to);
+						}
+						to = setTimeout(function() {
+							var v = $('#catSearch')
+									.val();
+							$('#categoryTree')
+									.jstree(true)
+									.search(v);
+						}, 250);
+					});
+			
+		}
+	 	
 		
 </script>
 

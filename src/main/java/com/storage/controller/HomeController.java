@@ -67,13 +67,14 @@ public class HomeController {
 	public ModelAndView addproduct(ModelAndView model){
 	
 		ResponseEntity<String> categoryByExample = this.categoryService.findAll();
-		StorageResult<List<Category>> jsonToObject = JsonUtils.jsonToObject(categoryByExample.getBody(), new TypeReference<StorageResult<List<Category>>>() {
-		} );
+		
 		ResponseEntity<String> vatByExample =vatService.findAll();
 		StorageResult<List<Vat>> vats = JsonUtils.jsonToObject(vatByExample.getBody(), new TypeReference<	StorageResult<List<Vat>>>() {
 		} );
 		model.setViewName("addproduct");
-		model.addObject("categories",jsonToObject.getResult());
+		List<Category> jsonToList = JsonUtils.jsonToList(categoryByExample.getBody(),Category.class);
+		
+		model.addObject("categories",jsonToList);
 		model.addObject("vat",vats.getResult());
 		return model;
 	}
@@ -127,9 +128,9 @@ public class HomeController {
 		
 		
 		ResponseEntity<String> categoryByExample = this.categoryService.findAll();
-		StorageResult<List<Category>> jsonToObject = JsonUtils.jsonToObject(categoryByExample.getBody(), new TypeReference<StorageResult<List<Category>>>() {
-		} );
-		model.addObject("categories",jsonToObject);
+		List<Category> jsonToList = JsonUtils.jsonToList(categoryByExample.getBody(),Category.class);
+		
+		model.addObject("categories",jsonToList);
 
 
 		model.setViewName("searchproduct");
@@ -138,16 +139,12 @@ public class HomeController {
 	@GetMapping("/categorylist")
 
 	public ModelAndView listCategory(ModelAndView model) {
-		ResponseEntity<String> categoryByExample = this.categoryService.findAll();
-		StorageResult<List<Category>> jsonToObject = JsonUtils.jsonToObject(categoryByExample.getBody(), new TypeReference<StorageResult<List<Category>>>() {
-		} );
-		if(jsonToObject.getCode()!=200) {
-			model.setViewName("error");
-			model.addObject("msg",jsonToObject.getMsg());
-		}else {
+		/*ResponseEntity<String> categoryByExample = this.categoryService.findAll();
+		
+		*/
 			model.setViewName("edgecategory");
-			model.addObject("categories",jsonToObject.getResult());
-		}
+//			model.addObject("categories",categoryByExample.getBody());
+		
 
 		return model;
 	}
@@ -156,11 +153,9 @@ public class HomeController {
 	public ModelAndView order(ModelAndView model){
 		Setting result = settingService.getSetting().getResult();
 		
-		ResponseEntity<String> categoryByExample = this.categoryService.findAll();
-		StorageResult<List<Category>> jsonToObject = JsonUtils.jsonToObject(categoryByExample.getBody(), new TypeReference<StorageResult<List<Category>>>() {
-		} );
+		//ResponseEntity<String> categoryByExample = this.categoryService.findAll();
+		
 		model.addObject("currencySymbol",result.getCurrencyDisplay()==1?"£":"¥");
-		model.addObject("categories",jsonToObject);
 		model.setViewName("order");
 		return model;
 	}

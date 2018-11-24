@@ -15,7 +15,6 @@ import com.storage.entity.Manager;
 import com.storage.entity.custom.MyManager;
 import com.storage.entity.custom.StorageResult;
 import com.storage.remote.service.ManagerRemoteService;
-import com.storage.service.ManagerService;
 
 @Service
 public class ManagerDetailService implements UserDetailsService {
@@ -31,7 +30,11 @@ public class ManagerDetailService implements UserDetailsService {
 
 		
 		manager.setUsername(username);
-		StorageResult<List<Manager>> managerByExample = this.service.getManagerByExample(manager);
+		StorageResult<List<Manager>> managerByExample=null;
+		
+		managerByExample = this.service.getManagerByExample(manager);
+			
+		
 		
 		if(managerByExample.getResult()!=null ) {
 			List<Manager> result = managerByExample.getResult();
