@@ -18,7 +18,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	th:href="@{/dist/css/bootstrap-editable.css}">
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini"  ng-app="advertise" 
+		ng-controller="myControl">
 	<div class="modal fade" id="modal-default">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -281,11 +282,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										</div>
 
 									</div>
+									<div class="pull-right form-group " style="margin-right: 5px;" >
+										<label class="radio-inline"> <input type="radio"
+											name="hide" ng-model="topAd.hide"
+											ng-checked="topAd.hide==1" id="inlineRadio1" value="1"> 隐藏
+										</label> 
+										<label class="radio-inline" style="margin-right: 5px;"  ><input
+											type="radio" name="hide" ng-model="topAd.hide"
+											ng-checked="topAd.hide==0" id="inlineRadio2" value="0"> 显示
+										</label>
 
-
-
-		<button type="button" id="btn_updateTop"
-										class="btn btn-info pull-right" th:text="#{advertise.update}">update Ad</button>
+										<button type="button" id="btn_updateTop"
+											class="btn btn-info  " th:text="#{advertise.update}">update
+											Ad</button>
+									</div>
+										
+	
 								</div>
 								<!-- /.box-body -->
 							
@@ -305,7 +317,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							
 		 
 
-
+				
 
 								<h3 class="box-title" th:text="#{advertise.leftAD}">Left AD</h3>
 							</div>
@@ -344,12 +356,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										</div>
 
 									</div>
+								<div class="pull-right form-group " style="margin-right: 5px;" >
+										<label class="radio-inline"> <input type="radio"
+											name="hide" ng-model="leftAd.hide"
+											ng-checked="leftAd.hide==1" id="inlineRadio3" value="1"> 隐藏
+										</label> 
+										<label class="radio-inline" style="margin-right: 5px;"  ><input
+											type="radio" name="hide" ng-model="leftAd.hide"
+											ng-checked="leftAd.hide==0" id="inlineRadio4" value="0"> 显示
+										</label>
 
-
-	<button type="button" id="btn_updateLeft"
+									
+								<button type="button" id="btn_updateLeft"
 										class="btn btn-info pull-right" th:text="#{advertise.update}">update Ad</button>
-							
+									</div>
 
+				
 								</div>
 								<!-- /.box-body -->
 						
@@ -396,7 +418,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.min.js}"></script>
-	<script th:src="@{/bower_components/ckeditor/ckeditor.js}"></script>
 	<script th:src="@{/dist/js/bootstrap-editable.js}"></script>
 	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
 	<!-- Optionally, you can add Slimscroll and FastClick plugins.
@@ -404,6 +425,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
      user experience. -->
 	<script th:inline="javascript">
     /*<![CDATA[*/  
+    var u=[[@{/}]].replace("\\","");
+	var csrfName= [[${_csrf.headerName}]];
+    var  token= [[${_csrf.token}]];
+		var app = angular.module('advertise',[]);
+    	app.controller('myControl', function($scope,$http,$location,$timeout) {
+				var leftAd=	[[${leftAd}]];
+				var topAd=	[[${topAd}]];
+    			$scope.leftAd=leftAd;
+    			$scope.topAd=topAd;
+	  
+	    });
+	 
+    	
  			$(document).ready(function() {
 			
 		
@@ -472,11 +506,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							   contentType: false,
 							   processData: false,						
 							   success: function (result) {
-								alert("修改成功");   
+								   console.log(result);
+								swal("修改成功");   
 							   }
 				  	});
 				  
 				  });
+				
 			      	
 				  $("#btn_updateLeft").click(function (){
 					var context = [[@{/}]]+"ad/update";
@@ -491,8 +527,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						   contentType: false,
 						   processData: false,						
 						   success: function (result) {
-							
-							alert("修改成功");   
+							   console.log(result);
+							   swal("修改成功"); 
 						   }
 			  			});
 					  

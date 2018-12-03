@@ -22,18 +22,19 @@ public class AdvertisementController {
 	AdvertisementServiceRemote service;
 	
 	@RequestMapping("/add")
-	public Advertisement addAdvertisement( Advertisement ad) {
+	public Object addAdvertisement( Advertisement ad) {
 		return service.addAdvertisement(ad);
 	}
 
 	@RequestMapping("/update")
-	public Advertisement updateAdvertisement( Advertisement ad){
+	public Object updateAdvertisement( Advertisement ad){
+		System.out.println(ad);
 		if(ad.getId()==null) {
 			return service.addAdvertisement(ad);
 		}else{
 			ResponseEntity<String> updateAdvertisement = service.updateAdvertisement(ad);
 			
-			return null;
+			return updateAdvertisement.getBody();
 		}
 	}
 

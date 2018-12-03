@@ -76,7 +76,6 @@ public class ProductController {
 		if (productById.getBody() == null) {
 			model.setViewName("redirect:/index");
 		} else {
-			System.out.println(productById.getBody());
 			String body = productById.getBody();
 			ProductDetail jsonToPojo = JsonUtils.jsonToPojo(body, ProductDetail.class);
 			model.addObject("product", jsonToPojo.getProduct());

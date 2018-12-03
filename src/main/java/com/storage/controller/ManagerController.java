@@ -1,7 +1,5 @@
 package com.storage.controller;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.storage.entity.Manager;
 import com.storage.remote.service.ManagerRemoteService;
-import com.storage.service.ManagerService;
 
 @Controller()
 @RequestMapping("/manager")
@@ -33,7 +30,6 @@ public class ManagerController {
 	}
 	/*@PostMapping("/login")
 	public ModelAndView loginManager(@AuthenticationPrincipal User user,  ModelAndView model,HttpServletRequest request,HttpServletResponse response, Manager manager) {
-		System.out.println("1111111111111111111111");
 
 		return model;
 	}*/
