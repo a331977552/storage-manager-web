@@ -5,307 +5,300 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta name="_csrf" th:content="${_csrf.token}" />
-<meta name="_csrf_header" th:content="${_csrf.headerName}" />
-<meta charset="utf8">
-<title>Storage System</title>
-<link th:href="@{/dist/css/bootstrap-editable.css}" rel="stylesheet">
-<link th:href="@{/dist/css/bootstrap-editable.css}" rel="stylesheet">
-<link th:href="@{/dist/css/jstree-theme/default/style.min.css}"
-	rel="stylesheet">
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+	<meta charset="utf8">
+	<title>Storage System</title>
+	<link th:href="@{/dist/css/bootstrap-editable.css}" rel="stylesheet">
+	<link th:href="@{/dist/css/bootstrap-editable.css}" rel="stylesheet">
+	<link th:href="@{/dist/css/jstree-theme/default/style.min.css}"
+		  rel="stylesheet">
 
 
-<title th:replace="header_link.html"></title>
+	<title th:replace="header_link.html"></title>
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini ">
 
-	<div class="modal modal-danger fade" id="modal-update">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span></button> -->
-					<h4 class="modal-title">warning</h4>
-				</div>
-				<div class="modal-body">
-					<p id="modal-body-info">are you sure you want to update this
-						category?</p>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-					<button id="btn_update_category" type="button"
-						class="btn btn-default" data-dismiss="modal">Yes</button>
-					<!-- <button type="button" class="btn btn-primary">ok</button> -->
-				</div>
+<div class="modal modal-default fade" id="modal-update">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button> -->
+				<h4 class="modal-title">warning</h4>
 			</div>
-			<!-- /.modal-content -->
+			<div class="modal-body">
+				<p id="modal-body-info">are you sure you want to update this
+					category?</p>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+				<button id="btn_update_category" type="button"
+						class="btn btn-default" data-dismiss="modal">Yes</button>
+				<!-- <button type="button" class="btn btn-primary">ok</button> -->
+			</div>
 		</div>
-		<!-- /.modal-dialog -->
+		<!-- /.modal-content -->
 	</div>
+	<!-- /.modal-dialog -->
+</div>
 
 
-	<div class="wrapper">
+<div class="wrapper">
 
-		<!-- Main Header -->
-		<div th:replace="header.html"></div>
-		<!-- Left side column. contains the logo and sidebar -->
-		<div th:replace="left_sidebar.html"></div>
+	<!-- Main Header -->
+	<div th:replace="header.html"></div>
+	<!-- Left side column. contains the logo and sidebar -->
+	<div th:replace="left_sidebar.html"></div>
 
 
 
-		<!-- Content Wrapper. Contains page content -->
-		<div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<section class="content-header">
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
 
-				<h1>
-					Editing<small> Category </small>
-				</h1>
+			<h1>
+				Editing<small> Category </small>
+			</h1>
 
-				<ol class="breadcrumb">
-					<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
-					<li class="active">edit category</li>
-				</ol>
-			</section>
+			<ol class="breadcrumb">
+				<li><a th:href="@{/}"><i class="fa fa-dashboard"></i>home</a></li>
+				<li class="active">edit category</li>
+			</ol>
+		</section>
 
-			<!-- Main content -->
-			<section class="content container-fluid">
+		<!-- Main content -->
+		<section class="content container-fluid">
 
-				<div class="row" style="padding: 30px;">
+			<div class="row" style="padding: 30px;">
 
-					<div class="form-inline">
-						<div class="form-group">
-							<label for="exampleInputName2">搜索:</label> <input type="text"
-								class="form-control" id="catSearch" placeholder="水果">
-						</div>
-
-						<button type="button" id="btnConfirm" class="btn btn-primary">确定修改</button>
-						<button type="button" id="btnReset" class="btn btn-default">Reset</button>
+				<div class="form-inline">
+					<div class="form-group">
+						<label for="exampleInputName2">搜索:</label> <input type="text"
+																		  class="form-control" id="catSearch" placeholder="水果">
 					</div>
 
-
+					<button type="button" id="btnConfirm" class="btn btn-primary">确定修改</button>
+					<button type="button" id="btnReset" class="btn btn-default">Reset</button>
 				</div>
 
 
-				<div class="row" style="padding: 30px;">
-
-					<div id="jstree_demo_div"></div>
+			</div>
 
 
+			<div class="row" style="padding: 30px;">
+
+				<div id="jstree_demo_div"></div>
 
 
-				</div>
-			</section>
-			<!-- /.content -->
-		</div>
-		<!-- /.content-wrapper -->
-
-		<!-- Main Footer -->
-
-		<div th:replace="footer.html"></div>
 
 
+			</div>
+		</section>
+		<!-- /.content -->
 	</div>
-	<!-- ./wrapper -->
+	<!-- /.content-wrapper -->
 
-	<!-- REQUIRED JS SCRIPTS -->
+	<!-- Main Footer -->
 
-	<!-- jQuery 3 -->
-	<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
-	<!-- Bootstrap 3.3.7 -->
-	<script
+	<div th:replace="footer.html"></div>
+
+
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+<!-- jQuery 3 -->
+<script th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap 3.3.7 -->
+<script
 		th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
-	<!-- AdminLTE App -->
-	<script th:src="@{/dist/js/adminlte.min.js}"></script>
-	<script th:src="@{/dist/js/jstree.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.min.js}"></script>
 
-	<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
-		<script th:src="@{/dist/js/toastr.min.js}"></script>
-			
-	<script th:inline="javascript">
-	
-		$(document)
-				.ready(
-						function() {
-							toastr.options={
-									/*"positionClass": "toast-bottom-center","progressBar": true, "closeButton": true, */
-									  "timeOut": "1000",
-							}
-							$("#li_edit_category").addClass("active");
+<script type="text/javascript" th:src="@{/dist/js/my_language.js}"></script>
+<script th:src="@{/dist/js/toastr.min.js}"></script>
+<script th:src="@{/dist/js/jstree.min.js}"></script>
 
-							var token = $("meta[name='_csrf']").attr("content");
-							var header = $("meta[name='_csrf_header']").attr(
-									"content");
-							$(document).ajaxSend(function(e, xhr, options) {
-								xhr.setRequestHeader(header, token);
-							});
-							loadTree(initilizeTree);
-							var updating = false;
-							$("#btnConfirm").click(function() {
+<script th:inline="javascript">
+    var jsTree;
+    var updating=false;
+    $(document)
+        .ready(
+            function() {
+                jsTree= $('#jstree_demo_div');
+                toastr.options={
+                    /*"positionClass": "toast-bottom-center","progressBar": true, "closeButton": true, */
+                    "timeOut": "1000",
+                }
+                $("#li_edit_category").addClass("active");
 
-								$("#modal-update").modal();
+                var token = $("meta[name='_csrf']").attr("content");
+                var header = $("meta[name='_csrf_header']").attr(
+                    "content");
+                $(document).ajaxSend(function(e, xhr, options) {
+                    xhr.setRequestHeader(header, token);
+                });
+                loadTree(initilizeTree);
+                var updating = false;
+                $("#btnConfirm").click(function() {
 
-							});
-							$("#btnReset").click(function() {
-								 loadTree(function (result,error){
-									  if(result!=null)
-									 {     
-										  
-										   var root={"id":-1,"parent":"#",text:"root"};
-											for (var i = 0; i < result.length; i++) {
-												if (result[i].parent == null) {
-													result[i].parent = -1;
-												}
-											}
-											result.push(root);
-											$('#jstree_demo_div').jstree(true).settings.core.data = result;
-											$('#jstree_demo_div').jstree(true).refresh();
-								
-									 } 
-	 
-								  })
-							})
+                    $("#modal-update").modal();
 
-							 $("#btn_update_category").click(function (){
-								if(updating)
-									return ;
-								updating=true;
-								var result= $('#jstree_demo_div').jstree(
-										true).get_json('#', {
-									flat : true
-								});
-								
-								var data=[];
-								
-								for (var i = 0; i < result.length; i++) {
-									if(result[i].id==-1)
-										continue;
-									
-									if (result[i].parent == -1) {
-										result[i].parent = null;
-									}
-									  	id=result[i].id;
-									 
-									  if(isNaN(parseInt(id)))
-										  id=null;
-									
-										
-									categ={"id":id,'text':result[i].text,'parent':result[i].parent};
-									data.push(categ);
-								}
-								var mytext = JSON.stringify(data);
-							
-								$.ajax({
-									   url: 'category/updateAll',
-									   type:'post',
-									   data:mytext,
-									   dataType:"json",
-									   contentType: 'application/json;charset=utf-8',
-									   success: function (result) {
-											console.log(result);
-										  if(result.code==200){
-											 
-										  }else{
-											  alert(result.msg);
-										  }
-										  loadTree(function (result,error){
-											  if(result!=null)
-											 {     
-												  toastr.success('修改成功!')
-												   var root={"id":-1,"parent":"#",text:"root"};
-													for (var i = 0; i < result.length; i++) {
-														if (result[i].parent == null) {
-															result[i].parent = -1;
-														}
-													}
-													result.push(root);
-													$('#jstree_demo_div').jstree(true).settings.core.data = result;
-													$('#jstree_demo_div').jstree(true).refresh();
-										
-											 } 
+                });
+                $("#btnReset").click(function() {
+                    reloadTree()
+                })
 
-												  updating=false;
-										  })
-										  
-										  //
-										   
-									   },
-									   error:function (error,error1,error2){
-											alert("update失败! 请检查网络,或刷新页面")						
-											updating=false;
-									   }
-								});
-								
-								
-								
-							}) 
 
-						});
-		
-		
-		function loadTree(callBack){
-			$.ajax({
-				url : 'category/findAll',
-				dataType : "json",
-				success : function(result) {
-					callBack(result,null);
-				},
-				error : function(error, error1, error2) {
-					alert("加载种类失败!, 请检查网络,或刷新页面")
-					callBack(null,error);
-				}
-			});
-			
-		}
-	
-		function initilizeTree(result,error=null){
-			var root={"id":-1,"parent":"#",text:"root"};
-			for (var i = 0; i < result.length; i++) {
-				if (result[i].parent == null) {
-					result[i].parent = -1;
-				}
-			}
-			result.push(root);
-			$('#jstree_demo_div').jstree(
-					{
-						"core" : {
-							"check_callback" : true,
-							'data' : result,
-							/* 'themes' : {
-								'name' : 'proton',
-								'responsive' : true
-							}  */
 
-						},
-						"plugins" : [ "contextmenu",
-								"search", "state",
-								"wholerow" ]
-					});
-		
-			
-		    	
-		    var to = false;
-			$("#catSearch").keyup(
-					function() {
-						if (to) {
-							clearTimeout(to);
-						}
-						to = setTimeout(function() {
-							var v = $('#catSearch')
-									.val();
-							$('#jstree_demo_div')
-									.jstree(true)
-									.search(v);
-						}, 250);
-					});
-			
-		}
-	</script>
-	<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. -->
+                $("#btn_update_category").click(function (){
+
+                    uploadTreeAndReload();
+
+				})
+
+            });
+
+    function uploadTreeAndReload() {
+
+        if(updating)
+            return ;
+        updating=true;
+        var result= jsTree.jstree(
+            true).get_json('#', {
+            flat : true
+        });
+        var data=[];
+        for (var i = 0; i < result.length; i++) {
+            //remove root
+            if(result[i].id==-100)
+                continue;
+            //if parent is root , then set null
+            if (result[i].parent == -100) {
+                result[i].parent = null;
+            }
+            var id=result[i].data.id;
+            var str_id=result[i].id;
+            var parent=result[i].data.parent;
+            var str_parents=result[i].parent;
+
+
+
+            categ={"str_id":str_id,'id':id,'text':result[i].text,
+				'parent':parent,
+				'str_parents':str_parents};
+
+
+            data.push(categ);
+        }
+        var mytext = JSON.stringify(data);
+        $.ajax({
+            url: 'category/updateAll',
+            type:'post',
+            data:mytext,
+            dataType:"json",
+            contentType: 'application/json;charset=utf-8',
+            success: function (result) {
+                if(result.code==200){
+                    loadTree(function (result,error){
+                        if(result!=null)
+                        {
+                            toastr.success('修改成功!')
+                            jsTree.jstree(true).settings.core.data = result;
+                            jsTree.jstree(true).refresh();
+                        }
+                        updating=false;
+                    })
+                }else{  swal(result.msg); }},
+            error:function (error,error1,error2){
+                swal("update失败! 请检查网络,或刷新页面");
+                updating=false;
+            }
+        });
+    }
+    function loadTree(callBack){
+        $.ajax({
+            url : 'category/findAll',
+            dataType : "json",
+            success : function(result) {
+                var root={"id":-100,"parent":"#",text:"root"};
+                for (var i = 0; i < result.length; i++) {
+                    if (result[i].str_parents == null) {
+                        result[i].str_parents = -100;
+                    }
+                    result[i].data= {};
+                    result[i].data.id=result[i].id;
+                    result[i].data.parent=result[i].parent;
+                    result[i].id= result[i].str_id;
+                    result[i].parent= result[i].str_parents;
+                }
+                result.push(root);
+                callBack(result,null);
+            },
+            error : function(error, error1, error2) {
+                alert("加载种类失败!, 请检查网络,或刷新页面")
+                callBack(null,error);
+            }
+        });
+
+    }
+
+    function initilizeTree(result,error=null){
+
+
+
+        jsTree.jstree({'core' : {
+                    "check_callback" : true,
+                    'data' : result,
+                    /* 'themes' : {
+                        'name' : 'proton',
+                        'responsive' : true
+                    }  */
+
+                },
+                "plugins" : [ "contextmenu",
+                    "search", "state",
+                    "wholerow" ]
+            });
+
+
+
+        var to = false;
+        $("#catSearch").keyup(
+            function() {
+                if (to) {
+                    clearTimeout(to);
+                }
+                to = setTimeout(function() {
+                    var v = $('#catSearch')
+                        .val();
+                    jsTree
+                        .jstree(true)
+                        .search(v);
+                }, 250);
+            });
+
+    }
+    function reloadTree(){
+        loadTree(function (result,error){
+            if(result!=null)
+            {
+                jsTree.jstree(true).settings.core.data = result;
+                jsTree.jstree(true).refresh();
+            }
+
+        })
+
+	}
+</script>
+<!-- Optionally, you can add Slimscroll and FastClick plugins.
+ Both of these plugins are recommended to enhance the
+ user experience. -->
 </body>
 </html>
 

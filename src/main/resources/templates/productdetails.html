@@ -67,7 +67,7 @@ desired effect
 		</div>
 		<!-- /.modal-dialog -->
 	</div>
-<div class="modal modal-danger fade" id="modal-delete">
+<div class="modal modal-default fade" id="modal-delete">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -537,8 +537,8 @@ desired effect
 							  
 							   var p=$('#modal-info').find("div.modal-body").children("p").eq(0).show();
 						 	if(result.code==200){
-						 		
-						 	
+
+                                $("html, body").animate({ scrollTop:100 }, "slow");
 						 		p.text(result.msg);
 						 		setTimeout(function(){					 			
 					 				$('#modal-info').modal('hide');		

@@ -171,7 +171,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											th:text="#{description.addproduct.sellingprice}+'(£)'"></span></label>
 										<input type="number" name="product.sellingprice_"
 											class="form-control" id="sellingprice"
-											placeholder="selling price" value="0">
+											placeholder="selling price" value="0" step="0.01">
 										<p class="help-block hidden">selling price cannot be 0 or
 											negative</p>
 									</div>
@@ -181,7 +181,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											th:text="#{description.addproduct.sellingprice_old}+'(£)'"></span></label>
 										<input type="number" name="product.sellingprice_old_"
 											class="form-control" id="sellingprice_old"
-											placeholder="打折前的价格" value="0">
+											placeholder="打折前的价格" value="0" step="0.01">
 										<p class="help-block hidden">selling price cannot be 0 or
 											negative</p>
 									</div>
@@ -191,7 +191,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 											th:text="#{description.addproduct.buyingprice}+'(£)'"></span></label>
 										<input type="number" name="product.buyingprice_" min="0"
 											class="form-control" id="buyingprice"
-											placeholder="buying price">
+											placeholder="buying price" step="0.01">
 										<p class="help-block hidden">buying price cannot be 0 or
 											negative</p>
 									</div>
@@ -561,6 +561,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						 	if(result.code==200){
 						 		$("#addproduct")[0].reset();
 						 		CKEDITOR.instances.editor1.setData("");
+                                $("html, body").animate({ scrollTop:100 }, "slow");
 						 		setTimeout(function(){					 			
 					 				$('#modal-info').modal('hide');		
 							 	},3000);			 		

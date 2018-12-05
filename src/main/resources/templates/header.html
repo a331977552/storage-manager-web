@@ -35,26 +35,26 @@
 				<!-- Notifications Menu -->
 				<li class="dropdown notifications-menu">
 					<!-- Menu toggle button --> <a href="#" class="dropdown-toggle"
-					data-toggle="dropdown"> <i class="fa fa-bell-o"></i> <span
+					data-toggle="dropdown"> <i class="fa fa-bell-o"></i><span
 						id="span_reminder"
-						th:class="${#lists.size(stockReminder.result)}>10?'label label-danger':(${#lists.size(stockReminder.result)}==0?'label':'label  label-warning')"
-						th:text="${#lists.size(stockReminder.result)}">0</span>
+						th:class="${stockReminder.totalCount}>10?'label label-danger':(${stockReminder.totalCount}==0?'label':'label  label-warning')"
+						th:text="${stockReminder.totalCount}">0</span>
 				</a>
 					<ul class="dropdown-menu">
 						<li class="header" id="li_title"
-							th:text="'You have '+${#lists.size(stockReminder.result)}+' notifications'">You
+							th:text="'您有'+${stockReminder.totalCount}+'件商品库存偏低'">You
 							have 0 notifications</li>
 						<li>
 							<!-- Inner Menu: contains the notifications -->
 							<ul class="menu" id="ul_reminder_menu">
-								<li th:each="re,stat:${stockReminder.result}"><a th:href="@{/product/get/}+${re.id}">
+								<li th:each="re,stat:${stockReminder.beans}"><a th:href="@{/product/get/}+${re.id}">
 										<i class="fa fa-users text-aqua"></i><span
-										th:text="${re.name}+' has '+${re.quantity}+' left'"></span>
+										th:text="${re.name}+' 还剩下'+${re.quantity}+'件'"></span>
 								</a></li>
 								<!-- end notification -->
 							</ul>
 						</li>
-						<li class="footer"><a href="#">View all</a></li>
+					<!--	<li class="footer"><a href="#">显示全部</a></li>-->
 					</ul>
 				</li>
 				<!-- Tasks Menu -->

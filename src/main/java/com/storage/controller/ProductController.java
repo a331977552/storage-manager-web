@@ -1,35 +1,23 @@
 package com.storage.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.storage.entity.Product;
 import com.storage.entity.ProductDetail;
 import com.storage.entity.Productimg;
 import com.storage.entity.custom.CustomProduct;
 import com.storage.entity.custom.StorageResult;
-import com.storage.remote.service.CategoryRemoteService;
-import com.storage.remote.service.ProductRemoteService;
-import com.storage.remote.service.ProductimgRemoteService;
-import com.storage.remote.service.SettingRemoteService;
-import com.storage.remote.service.VatRemoteService;
+import com.storage.remote.service.*;
 import com.storage.utils.JsonUtils;
 import com.storage.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller()
 @RequestMapping("/product")
@@ -136,6 +124,7 @@ public class ProductController {
 	@GetMapping("/stockreminder")
 	@ResponseBody
 	public Object getStockReminder() {
+
 		return this.service.getStockReminder();
 	}
 
